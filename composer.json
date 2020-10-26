@@ -1,0 +1,13 @@
+{
+    "name": "cimfav/nelsonbarrera",
+    "authors": [
+        {
+            "name": "jc-tapia",
+            "email": "juancarlos.tapia@uv.cl"
+        }
+    ],
+    "require": {
+        "numphp/numphp": "^1.2",
+        "php-ai/php-ml": "^0.9.0"
+    }
+}
