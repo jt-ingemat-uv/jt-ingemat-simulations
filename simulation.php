@@ -12,19 +12,18 @@ $vista_resultado = FALSE;
 $no_autorizado = FALSE;
 
 function boxMuller($n){
-    $_C1 = [];
+    $_M  = [];
     $_C2 = [];
-    $i = 0;
+    $i   = 0;
     while($n >  $i){
         $U1 = rand(0,999) / 1000;
         $U2 = rand(0,999) / 1000;
         $Z1 = sqrt(-2.0 * log10($U1)) * cos(( 2.0 * pi() ) * $U2);
         $Z2 = sqrt(-2.0 * log10($U1)) * sin(( 2.0 * pi() ) * $U2);
-        array_push($_C1, $Z1);
-        array_push($_C2, $Z2);
+        array_push($_M, [$Z1, $Z2]);
         $i++;
     }
-    return [$_C1, $_C2];
+    return $_M;
 }
 
 if (isset($_POST['calculate'])) {
@@ -91,93 +90,159 @@ if (isset($_POST['calculate'])) {
             $Data_C4 = array_map(null, ...$_data_C4);
 
             $X = [];
-            array_push($X, [array_sum($Data_C1[2])/count($Data_C1[2]),array_sum($Data_C1[3])/count($Data_C1[3]),array_sum($Data_C1[1])/count($Data_C1[1]),array_sum($Data_C1[4])/count($Data_C1[4])]);
-            array_push($X, [array_sum($Data_C2[2])/count($Data_C2[2]),array_sum($Data_C2[3])/count($Data_C2[3]),array_sum($Data_C2[1])/count($Data_C2[1]),array_sum($Data_C2[4])/count($Data_C2[4])]);
-            array_push($X, [array_sum($Data_C3[2])/count($Data_C3[2]),array_sum($Data_C3[3])/count($Data_C3[3]),array_sum($Data_C3[1])/count($Data_C3[1]),array_sum($Data_C3[4])/count($Data_C3[4])]);
-            array_push($X, [array_sum($Data_C4[2])/count($Data_C4[2]),array_sum($Data_C4[3])/count($Data_C4[3]),array_sum($Data_C4[1])/count($Data_C4[1]),array_sum($Data_C4[4])/count($Data_C4[4])]);
+            array_push($X,
+                    [   array_sum($Data_C1[2])/count($Data_C1[2]),
+                        array_sum($Data_C1[3])/count($Data_C1[3]),
+                        array_sum($Data_C1[1])/count($Data_C1[1]),
+                        array_sum($Data_C1[4])/count($Data_C1[4])
+                    ] );
+            array_push($X,
+                    [   array_sum($Data_C2[2])/count($Data_C2[2]),
+                        array_sum($Data_C2[3])/count($Data_C2[3]),
+                        array_sum($Data_C2[1])/count($Data_C2[1]),
+                        array_sum($Data_C2[4])/count($Data_C2[4])
+                    ] );
+            array_push($X,
+                    [   array_sum($Data_C3[2])/count($Data_C3[2]),
+                        array_sum($Data_C3[3])/count($Data_C3[3]),
+                        array_sum($Data_C3[1])/count($Data_C3[1]),
+                        array_sum($Data_C3[4])/count($Data_C3[4])
+                    ] );
+            array_push($X,
+                    [   array_sum($Data_C4[2])/count($Data_C4[2]),
+                        array_sum($Data_C4[3])/count($Data_C4[3]),
+                        array_sum($Data_C4[1])/count($Data_C4[1]),
+                        array_sum($Data_C4[4])/count($Data_C4[4])
+                    ] );
         
-            $XY = new NumPHP\Core\NumArray([$V_2, $V_3]);
-            $AB = new NumPHP\Core\NumArray([$V_1, $V_4]);
-        
+            $XY = [$V_2->getData(), $V_3->getData()];
+            $AB = [$V_1->getData(), $V_4->getData()];
+
             $QS_1    = $preg_1;
             $logQS_1 = log10($QS_1);
             $IF_1    = $preg_2;
         
-            $AB_0 = new NumPHP\Core\NumArray([$logQS_1, $IF_1]);
-            $M_CO = new NumPHP\Core\NumArray([$XY, $AB]);
-        
-            $CO = new NumPHP\Core\NumArray(
-                [
-                    [ 0.3285,   0.3776,  0.1455,  -1.0649],
-                    [ 0.3776,   7.9001,  0.3820,  -0.4802],
-                    [ 0.1455,   0.3820,  0.5907,  -0.9224],
-                    [-1.0649,  -0.4802, -0.9224,  26.4672]
-                ]
-            );
-        
-            $CO_11      = [array($CO->getData()[0][0],$CO->getData()[0][1]), array($CO->getData()[1][0],$CO->getData()[1][1])];
-            $CO_12      = [array($CO->getData()[0][2],$CO->getData()[0][3]), array($CO->getData()[1][2],$CO->getData()[1][3])];
-            $CO_21      = [array($CO->getData()[2][0],$CO->getData()[2][1]), array($CO->getData()[3][0],$CO->getData()[3][1])];
-            $CO_22      = [array($CO->getData()[2][2],$CO->getData()[2][3]), array($CO->getData()[3][2],$CO->getData()[3][3])];
-        
-            $XY_m       = [array_sum($V_2->getData())/count($V_2->getData()) , array_sum($V_3->getData())/count($V_3->getData())];
-            $AB_m       = [array_sum($V_1->getData())/count($V_1->getData()) , array_sum($V_4->getData())/count($V_4->getData())];
+            $AB_0 = [$logQS_1, $IF_1];
             
-            $AB_0       = $AB_0->getData();     
-            $AB_0_AB_m  = [ 
-                            [ $AB_0[0] - $AB_m[0] ], 
-                            [ $AB_0[1] - $AB_m[1] ]
-                        ];
+            //$M_CO = [$XY, $AB];
         
-            $CO_12_invCO_22 = [ [0.1940, -0.0335],
-                                [0.6539, 0.0046]];
+            $CO = array(
+                [ 0.3285,   0.3776,  0.1455,  -1.0649],
+                [ 0.3776,   7.9001,  0.3820,  -0.4802],
+                [ 0.1455,   0.3820,  0.5907,  -0.9224],
+                [-1.0649,  -0.4802, -0.9224,  26.4672]
+                );
         
-            $CO_12_invCO_22_AB_0_AB_m = [   [$CO_12_invCO_22[0][0]*$AB_0_AB_m[0][0]+$CO_12_invCO_22[0][1]*$AB_0_AB_m[1][0]],
-                                            [$CO_12_invCO_22[1][0]*$AB_0_AB_m[0][0]+$CO_12_invCO_22[1][1]*$AB_0_AB_m[1][0]]];
+            $CO_11 = [
+                [ $CO[0][0], $CO[0][1] ], 
+                [ $CO[1][0], $CO[1][1] ] ];
+            $CO_12 = [
+                [ $CO[0][2], $CO[0][3] ], 
+                [ $CO[1][2], $CO[1][3] ] ];
+            $CO_21 = [
+                [ $CO[2][0], $CO[2][1] ], 
+                [ $CO[3][0], $CO[3][1] ] ];
+            $CO_22 = [
+                [ $CO[2][2], $CO[2][3] ], 
+                [ $CO[3][2], $CO[3][3] ] ];
         
-            $CO_12_invCO_22_AB_0_AB_m = [$CO_12_invCO_22_AB_0_AB_m[0][0], $CO_12_invCO_22_AB_0_AB_m[1][0]];
-        
-            $ESP_multi  = [$XY_m[0]+$CO_12_invCO_22_AB_0_AB_m[0], $XY_m[1]+$CO_12_invCO_22_AB_0_AB_m[1]];
-        
-            $V_multi    = [
-                            [ 0.2646, 0.2874],
-                            [ 0.2874, 7.6525]
-                          ];
-
-                          
-
-            $mu = new NumPHP\Core\NumArray($ESP_multi);
-            $sigma = new NumPHP\Core\NumArray($V_multi);
-            $sigma = LinAlg::cholesky($V_multi);
-            $n = 1000;
-        
-            $new = new NumPHP\Core\NumArray(boxMuller($n));
-            $R = $sigma->dot($new);
-            $R = $R->getData();
-            $mu = $mu->getData();
-        
+            $XY_m = [
+                array_sum($V_2->getData())/count($V_2->getData()), 
+                array_sum($V_3->getData())/count($V_3->getData()) ];
+            $AB_m = [
+                array_sum($V_1->getData())/count($V_1->getData()),
+                array_sum($V_4->getData())/count($V_4->getData()) ];
             
-            for($i = 0; $i < $n; $i++){
-                $R[0][$i] = $mu[0] + $R[0][$i];
-                $R[1][$i] = $mu[0] + $R[1][$i];
+            $CO_11N = new NumPHP\Core\NumArray($CO_11);
+            $CO_12N = new NumPHP\Core\NumArray($CO_12);
+            $CO_21N = new NumPHP\Core\NumArray($CO_21);
+            $CO_22N = new NumPHP\Core\NumArray($CO_22);
+
+            // ESP_multi = XY_m + (CO_12*inv(CO_22)*(AB_0 - AB_m)')';
+
+            $AB_0N = new NumPHP\Core\NumArray($AB_0);
+            $AB_mN = new NumPHP\Core\NumArray($AB_m);
+
+            $AB_0_AB_m = $AB_0N->add($AB_mN->dot(-1))->getData();
+            /* Transpose */
+            $_aux = [];
+            foreach ($AB_0_AB_m as $value) {
+                array_push($_aux, [$value]);
             }
             
-            $logQS_1_ones = [];
-            for($i = 0; $i < $n; $i++){
+            $AB_0_AB_m = new NumPHP\Core\NumArray($_aux);
+            $XY_m = new NumPHP\Core\NumArray([$XY_m]);
+
+            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose())->getData();
+            $ESP_multi = new NumPHP\Core\NumArray($ESP_multi); 
+
+            unset($CO_12N);
+
+            $CO_12N = new NumPHP\Core\NumArray($CO_12);
+            
+            $V_multi = $CO_11N->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($CO_21N))->dot(-1));
+
+            //print_r($ESP_multi);
+            $sigma = $V_multi->getData();
+            unset($V_multi);
+            foreach ($sigma as $fil => $fila) {
+                foreach ($fila as $key => $value) {
+                    $sigma[$fil][$key] = round($sigma[$fil][$key], 8);
+                }
+            }
+            $V_multi = new NumPHP\Core\NumArray($sigma);
+
+            //print_r($V_multi);
+            
+            /* 
+            R = mvnrnd(ESP_multi,   V_multi,                1000); 
+            R = mvnrnd(mu,          cholesky($V_multi),     boxMuller($_iter))
+            R = mu + At*A
+            */
+            $_iter = 10;
+            $n = new NumPHP\Core\NumArray(boxMuller($_iter));
+            //ESP_multi
+            $_aux = $ESP_multi->getData();
+            $_aux = array_map(null, ...$_aux);
+            print_r($_aux);
+            //unset($ESP_multi);
+            $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
+            foreach ($R as $key => $value) {
+                $R[$key] = [ $R[$key][0] + $_aux[0] , $R[$key][1] + $_aux[1]];
+            }
+
+            /*
+            mu = [
+                R(:,1) 
+                R(:,2) 
+                logQS_1*ones(size(R(:,1))) 
+                IF_1*ones(size(R(:,1)))];
+            */
+
+            $mu_R1 = $mu_R2 = $logQS_1_ones = $IF_1_ones = [];
+
+            for($i = 0; $i < $_iter; $i++){
+                array_push($mu_R1,  $R[$i][0]);
+                array_push($mu_R2,  $R[$i][1]);
                 array_push($logQS_1_ones, $logQS_1 * 1);
-            }
-            $IF_1_ones = [];
-            for($i = 0; $i < $n; $i++){
                 array_push($IF_1_ones, $IF_1 * 1);
             }
-            $mu = [$R[0], $R[1], $logQS_1_ones,  $IF_1_ones];
+            $mu = [ 
+                $mu_R1,
+                $mu_R2,
+                $logQS_1_ones,
+                $IF_1_ones
+            ];
+
+            $mu = array_map(null, ...$mu);
         
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
 
-            $mu = array_map(null, ...$mu);
-        
-            for($i = 0; $i < $n; $i++){
+
+            //print_r($mu);
+            
+            for($i = 0; $i < $_iter; $i++){
         
                 for($a = 0; $a < 4; $a++){
                     $euclidean = new Phpml\Math\Distance\Euclidean();
@@ -189,15 +254,22 @@ if (isset($_POST['calculate'])) {
         
                 if ($I == 0) {    
                     $j[0] = $j[0] + 1; 
+
                 }elseif ($I == 1){
                     $j[1] = $j[1] + 1; 
+
                 }elseif ($I == 2){
                     $j[2] = $j[2] + 1; 
+
                 }elseif ($I == 3){
                     $j[3] = $j[3] + 1;
+
                 }
             }
             
+            //print_r($j);
+            //die;
+
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
 
@@ -206,6 +278,12 @@ if (isset($_POST['calculate'])) {
 
             $_inf_qs = ceil(pow(10, min($Clust[$near_clust][2])));
             $_sup_qs = floor(pow(10, max($Clust[$near_clust][2])));  
+
+            //var_dump($_inf_year);
+            //var_dump($_sup_year);
+            //var_dump($_inf_qs);
+            //var_dump($_sup_qs);
+            //die;
         }
     }else{
         $vista_resultado = TRUE;

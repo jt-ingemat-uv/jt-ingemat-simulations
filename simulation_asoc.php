@@ -9,9 +9,9 @@ $vista_resultado = FALSE;
 $no_autorizado = FALSE;
 
 function boxMuller($n){
-    $_M = [];
+    $_M  = [];
     $_C2 = [];
-    $i = 0;
+    $i   = 0;
     while($n >  $i){
         $U1 = rand(0,999) / 1000;
         $U2 = rand(0,999) / 1000;
@@ -162,16 +162,7 @@ if (isset($_POST['calculate'])) {
             $AB_0 = array($logQS_PhD, $logQS_HU, $HY, $IF_HY, $IF_PY);
 
             //$M_CO = new NumPHP\Core\NumArray([$XY, $AB]);
-            /*
-        
-            $CO = new NumPHP\Core\NumArray(
-                [
-                    [ 0.3285,   0.3776,  0.1455,  -1.0649],
-                    [ 0.3776,   7.9001,  0.3820,  -0.4802],
-                    [ 0.1455,   0.3820,  0.5907,  -0.9224],
-                    [-1.0649,  -0.4802, -0.9224,  26.4672]
-                ]
-            );*/  
+            
             $CO = array(
                     [ 0.3168, -0.2089,  0.1315,  0.3028,  0.3845, -1.3253,  -0.9226],
                     [-0.2089,  6.7113, -0.0163, -0.2130, -0.7830,  0.6570,   0.4323],
@@ -202,11 +193,6 @@ if (isset($_POST['calculate'])) {
                 [$CO[4][2],$CO[4][3],$CO[4][4],$CO[4][5],$CO[4][6] ], 
                 [$CO[5][2],$CO[5][3],$CO[5][4],$CO[5][5],$CO[5][6] ], 
                 [$CO[6][2],$CO[6][3],$CO[6][4],$CO[6][5],$CO[6][6] ] ];
-
-            //print_r($CO_11);
-            //print_r($CO_12);
-            //print_r($CO_21);
-            //print_r($CO_22);
 
             $XY_m = [ 
                 array_sum($XY[0])/count($XY[0]), 
@@ -275,22 +261,21 @@ if (isset($_POST['calculate'])) {
             $sigma = $V_multi->getData();
             unset($V_multi);
 
-            round($sigma[0][1], 5);
-            round($sigma[1][0], 5);
-
+            //round($sigma[0][1], 5);
+            //round($sigma[1][0], 5);
+ 
             foreach ($sigma as $fil => $fila) {
                 foreach ($fila as $key => $value) {
                     $sigma[$fil][$key] = round($sigma[$fil][$key], 8);
                 }
             }
             $V_multi = new NumPHP\Core\NumArray($sigma);
-
             /* 
             R = mvnrnd(ESP_multi,   V_multi,                1000); 
             R = mvnrnd(mu,          cholesky($V_multi),     boxMuller($_iter))
             R = mu + At*A
             */
-            $_iter = 10;
+            $_iter = 1000;
             $n = new NumPHP\Core\NumArray(boxMuller($_iter));
             //ESP_multi
             $_aux = $ESP_multi->getData();
@@ -334,7 +319,7 @@ if (isset($_POST['calculate'])) {
                 $mu_R2
             ];
             $mu = array_map(null, ...$mu);
-        
+
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
 
