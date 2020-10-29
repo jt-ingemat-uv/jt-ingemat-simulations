@@ -18,8 +18,8 @@ function boxMuller($n){
     while($n >  $i){
         $U1 = rand(0,999) / 1000;
         $U2 = rand(0,999) / 1000;
-        $Z1 = sqrt(-2.0 * log($U1)) * cos(( 2.0 * pi() ) * $U2);
-        $Z2 = sqrt(-2.0 * log($U1)) * sin(( 2.0 * pi() ) * $U2);
+        $Z1 = sqrt(-2.0 * log10($U1)) * cos(( 2.0 * pi() ) * $U2);
+        $Z2 = sqrt(-2.0 * log10($U1)) * sin(( 2.0 * pi() ) * $U2);
         array_push($_C1, $Z1);
         array_push($_C2, $Z2);
         $i++;
@@ -123,7 +123,7 @@ if (isset($_POST['calculate'])) {
             $XY_m       = [array_sum($V_2->getData())/count($V_2->getData()) , array_sum($V_3->getData())/count($V_3->getData())];
             $AB_m       = [array_sum($V_1->getData())/count($V_1->getData()) , array_sum($V_4->getData())/count($V_4->getData())];
             
-            $AB_0 = $AB_0->getData();     
+            $AB_0       = $AB_0->getData();     
             $AB_0_AB_m  = [ 
                             [ $AB_0[0] - $AB_m[0] ], 
                             [ $AB_0[1] - $AB_m[1] ]
@@ -143,6 +143,8 @@ if (isset($_POST['calculate'])) {
                             [ 0.2646, 0.2874],
                             [ 0.2874, 7.6525]
                           ];
+
+                          
 
             $mu = new NumPHP\Core\NumArray($ESP_multi);
             $sigma = new NumPHP\Core\NumArray($V_multi);
