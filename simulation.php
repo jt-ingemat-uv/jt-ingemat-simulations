@@ -182,7 +182,6 @@ if (isset($_POST['calculate'])) {
             
             $V_multi = $CO_11N->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($CO_21N))->dot(-1));
 
-            //print_r($ESP_multi);
             $sigma = $V_multi->getData();
             unset($V_multi);
             foreach ($sigma as $fil => $fila) {
@@ -199,42 +198,18 @@ if (isset($_POST['calculate'])) {
             R = mvnrnd(mu,          cholesky($V_multi),     boxMuller($_iter))
             R = mu + At*A
             */
-            $_iter = 10;
+            $_iter = 1000;
             $n = new NumPHP\Core\NumArray(boxMuller($_iter));
-            //ESP_multi
+
             $_aux = $ESP_multi->getData();
             $_aux = array_map(null, ...$_aux);
-            //print_r($_aux);
-            //unset($ESP_multi);
-            /*
+
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
             foreach ($R as $key => $value) {
                 $R[$key] = [ $R[$key][0] + $_aux[0] , $R[$key][1] + $_aux[1]];
             }
-            */
-            /*
-            $R = [
-                    [2.1405 ,   6.9806],
-                    [0.1739   , 0.4162],
-                    [2.1640  ,  1.7033],
-                    [2.3273  ,  8.6736],
-                    [2.6336  ,  2.9161],
-                    [2.0465  , -3.5053],
-                    [2.1690  ,  5.4857],
-                    [1.6390  ,  1.9837],
-                    [1.9462  ,  8.0753],
-                    [1.3901  , -0.8783]
-                ];
-                */
-/*
-            foreach ($R  as $key => $value) {
-                echo $value[0].';'.$value[1];
-                echo '<br>';
-            }
-            die;
-            */
-
-            /*
+            
+            /* Estructura de asignacion MATLAB
             mu = [
                 R(:,1) 
                 R(:,2) 
@@ -242,72 +217,35 @@ if (isset($_POST['calculate'])) {
                 IF_1*ones(size(R(:,1)))];
             */
 
-
             $mu_R1 = $mu_R2 = $logQS_1_ones = $IF_1_ones = [];
 
             for($i = 0; $i < $_iter; $i++){
-                //array_push($mu_R1,  $R[$i][0]);
-                //array_push($mu_R2,  $R[$i][1]);
+                array_push($mu_R1,  $R[$i][0]);
+                array_push($mu_R2,  $R[$i][1]);
                 array_push($logQS_1_ones, $logQS_1 * 1);
                 array_push($IF_1_ones, $IF_1 * 1);
             }
             
-            /*
             $mu = [ 
                 $mu_R1,
                 $mu_R2,
                 $logQS_1_ones,
                 $IF_1_ones
             ];
-            */
-            $mu = [ 
-                [
-                    1.8068,
-                    1.6603,
-                    0.8947,
-                    1.6481,
-                    1.3674,
-                    1.2913,
-                    1.2002,
-                    1.5206,
-                    0.7649,
-                    2.2911
-                ],[ 
-                    5.6203,
-                    3.9979,
-                    3.1265,
-                    1.8765,
-                    6.4940,
-                    3.2905,
-                    1.6166,
-                    7.5618,
-                    2.4707,
-                    3.1414,
-                ], 
-                    $logQS_1_ones,
-                    $IF_1_ones
-            ];
-
 
             $mu = array_map(null, ...$mu);
         
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
 
-
-            //print_r($mu);
-            
             for($i = 0; $i < $_iter; $i++){
         
                 for($a = 0; $a < 4; $a++){
                     $euclidean = new Phpml\Math\Distance\Euclidean();
-                    //print_r($X[$a]);
-                    //print_r($mu[$i]);
                     $D[$a] = $euclidean->distance($X[$a], $mu[$i]);
-                    //print_r($D);
-                    //print_r("<br>");
+
                 }
-                //print_r($D);
+
                 $M = min($D);
                 $I = array_search($M, $D);
         
@@ -326,22 +264,11 @@ if (isset($_POST['calculate'])) {
                 }
             }
             
-            print_r($j);
-            //die;
-
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
 
-            //print_r($max_prob);
-            //print_r("-");
-            //print_r($near_clust );
-
-            //print_r("_inf_year:");
-
-            //print_r($Clust[$near_clust]); 
             $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
 
-            print_r($Clust_evaluate);
             $year_min = [
                 min($Clust_evaluate[0]),
                 min($Clust_evaluate[1]),
@@ -360,19 +287,8 @@ if (isset($_POST['calculate'])) {
             $_inf_year = $year_min[3];
             $_sup_year = $year_max[3];
 
-           
-
             $_inf_qs = ceil(pow(10, $year_min[2]));
             $_sup_qs = floor(pow(10, $year_max[2]));  
-
-            
-
-
-            //var_dump($_inf_year);
-            //var_dump($_sup_year);
-            //var_dump($_inf_qs);
-            //var_dump($_sup_qs);
-            //die;
         }
     }else{
         $vista_resultado = TRUE;
@@ -1140,8 +1056,8 @@ if (isset($_POST['calculate'])) {
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation.php">
                         <div class="form-row">
-                            <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?>,</h4>
-                            <h4>years since your graduation, in a university with a QS rank between  <?php echo $_inf_qs; ?> and <?php echo $_sup_qs; ?></h4>
+                            <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?> years since your graduation, </h4>
+                            <h4>in a university with a QS rank between  <?php echo $_inf_qs; ?> and <?php echo $_sup_qs; ?>.</h4>
                             <br>
                         </div>
                     </form>
