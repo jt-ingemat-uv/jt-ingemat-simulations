@@ -190,8 +190,6 @@ if (isset($_POST['calculate'])) {
                 }
             }
             $V_multi = new NumPHP\Core\NumArray($sigma);
-
-            //print_r($V_multi);
             
             /* 
             R = mvnrnd(ESP_multi,   V_multi,                1000); 
@@ -232,6 +230,7 @@ if (isset($_POST['calculate'])) {
                 $logQS_1_ones,
                 $IF_1_ones
             ];
+
 
             $mu = array_map(null, ...$mu);
         

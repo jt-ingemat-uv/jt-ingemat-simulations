@@ -139,16 +139,9 @@ if (isset($_POST['calculate'])) {
                         array_sum($Data_C4[5])/count($Data_C4[5])
                     ] );
         
-            //$XY = new NumPHP\Core\NumArray([$V_6, $V_7]);
-            
             $XY = [$V_6->getData(), $V_7->getData()];
-            //$AB = new NumPHP\Core\NumArray([$V_1, $V_2, $V_3, $V_4, $V_5]);
 
             $AB = [$V_1->getData(), $V_2->getData(), $V_3->getData(), $V_4->getData(), $V_5->getData()];
-        
-//            $QS_1    = $preg_1;
-//            $logQS_1 = log10($QS_1);
-//            $IF_1    = $preg_2;
 
             $QS_PhD     = $preg_1;
             $logQS_PhD  = log10($QS_PhD);
@@ -159,7 +152,7 @@ if (isset($_POST['calculate'])) {
             $IF_PY      = $preg_5;
                 
             //$AB_0 = new NumPHP\Core\NumArray([$logQS_1, $IF_1]);
-            $AB_0 = array($logQS_PhD, $logQS_HU, $HY, $IF_HY, $IF_PY);
+            $AB_0 = [$logQS_PhD, $logQS_HU, $HY, $IF_HY, $IF_PY];
 
             //$M_CO = new NumPHP\Core\NumArray([$XY, $AB]);
             
@@ -214,10 +207,6 @@ if (isset($_POST['calculate'])) {
             $AB_0N = new NumPHP\Core\NumArray($AB_0);
             $AB_mN = new NumPHP\Core\NumArray($AB_m);
 
-   
-            //print_r($AB_0);
-            //print_r($AB_m);
-
             $AB_0_AB_m = $AB_0N->add($AB_mN->dot(-1))->getData();
             
             /* Transpose */
@@ -237,56 +226,36 @@ if (isset($_POST['calculate'])) {
 
             $V_multi = $CO_11N->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($CO_21N))->dot(-1));
 
-            
-            /*
-
-            $_invCO_22 = new NumPHP\Core\NumArray(
-                [
-                    [ 1.9471, -0.7303, -0.0477,  0.0520, -0.0317 ],
-                    [-0.7303,  3.9963, -0.1267,  0.1099,  0.0576 ],
-                    [-0.0477, -0.1267,  0.1308, -0.0072,  0.0055 ],
-                    [ 0.0520,  0.1099, -0.0072,  0.0942, -0.0811 ],
-                    [-0.0317,  0.0576,  0.0055, -0.0811,  0.1325 ]
-                ]
-            );
-            */
-            //print_r($_invCO_22);
-
-            //$_invCO_22_AB_0_AB_m = $_invCO_22->dot($AB_0_AB_m);
-            //print_r($_invCO_22_AB_0_AB_m);
-            //print_r($ESP_multi);
-           //print_r($V_multi);
-
-
             $sigma = $V_multi->getData();
             unset($V_multi);
-
-            //round($sigma[0][1], 5);
-            //round($sigma[1][0], 5);
- 
             foreach ($sigma as $fil => $fila) {
                 foreach ($fila as $key => $value) {
                     $sigma[$fil][$key] = round($sigma[$fil][$key], 8);
                 }
             }
             $V_multi = new NumPHP\Core\NumArray($sigma);
+
+            
+            //print_r($ESP_multi);
+            //print_r($V_multi);
+
             /* 
             R = mvnrnd(ESP_multi,   V_multi,                1000); 
             R = mvnrnd(mu,          cholesky($V_multi),     boxMuller($_iter))
             R = mu + At*A
             */
-            $_iter = 1000;
+            $_iter = 10;
             $n = new NumPHP\Core\NumArray(boxMuller($_iter));
-            //ESP_multi
+
             $_aux = $ESP_multi->getData();
             $_aux = array_map(null, ...$_aux);
-            //unset($ESP_multi);
+
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
             foreach ($R as $key => $value) {
                 $R[$key] = [ $R[$key][0] + $_aux[0] , $R[$key][1] + $_aux[1]];
             }
 
-            /*
+            /* Estructura de asignacion MATLAB
             mu = [
                     AB_0(1)*ones(size(R(:,1))) 
                     AB_0(2)*ones(size(R(:,1))) 
@@ -318,6 +287,7 @@ if (isset($_POST['calculate'])) {
                 $mu_R1,
                 $mu_R2
             ];
+
             $mu = array_map(null, ...$mu);
 
             $j = [0, 0, 0, 0];
@@ -329,6 +299,7 @@ if (isset($_POST['calculate'])) {
                     $euclidean = new Phpml\Math\Distance\Euclidean();
                     $D[$a] = $euclidean->distance($X[$a], $mu[$i]);
                 }
+
                 $M = min($D);
                 $I = array_search($M, $D);
         
@@ -346,11 +317,33 @@ if (isset($_POST['calculate'])) {
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
 
-            $_inf_year = min($Clust[$near_clust][3]);
-            $_sup_year = max($Clust[$near_clust][3]);
+            $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
 
-            $_inf_qs = ceil(pow(10, min($Clust[$near_clust][2])));
-            $_sup_qs = floor(pow(10, max($Clust[$near_clust][2])));  
+            $year_min = [
+                min($Clust_evaluate[0]),
+                min($Clust_evaluate[1]),
+                min($Clust_evaluate[2]),
+                min($Clust_evaluate[3]),
+                min($Clust_evaluate[5]),
+                min($Clust_evaluate[6]),
+                min($Clust_evaluate[7])
+            ];
+            $year_max = [
+                max($Clust_evaluate[0]),
+                max($Clust_evaluate[1]),
+                max($Clust_evaluate[2]),
+                max($Clust_evaluate[3]),
+                max($Clust_evaluate[4]),
+                max($Clust_evaluate[5]),
+                max($Clust_evaluate[6]),
+                max($Clust_evaluate[7])
+            ];
+
+            $_inf_year = $year_min[5];
+            $_sup_year = $year_max[5];
+
+            $_inf_qs = ceil(pow(10, $year_min[3]));
+            $_sup_qs = floor(pow(10, $year_max[3]));  
         }
     }else{
         $vista_resultado = TRUE;
