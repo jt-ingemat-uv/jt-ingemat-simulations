@@ -204,12 +204,35 @@ if (isset($_POST['calculate'])) {
             //ESP_multi
             $_aux = $ESP_multi->getData();
             $_aux = array_map(null, ...$_aux);
-            print_r($_aux);
+            //print_r($_aux);
             //unset($ESP_multi);
+            /*
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
             foreach ($R as $key => $value) {
                 $R[$key] = [ $R[$key][0] + $_aux[0] , $R[$key][1] + $_aux[1]];
             }
+            */
+            /*
+            $R = [
+                    [2.1405 ,   6.9806],
+                    [0.1739   , 0.4162],
+                    [2.1640  ,  1.7033],
+                    [2.3273  ,  8.6736],
+                    [2.6336  ,  2.9161],
+                    [2.0465  , -3.5053],
+                    [2.1690  ,  5.4857],
+                    [1.6390  ,  1.9837],
+                    [1.9462  ,  8.0753],
+                    [1.3901  , -0.8783]
+                ];
+                */
+/*
+            foreach ($R  as $key => $value) {
+                echo $value[0].';'.$value[1];
+                echo '<br>';
+            }
+            die;
+            */
 
             /*
             mu = [
@@ -219,20 +242,52 @@ if (isset($_POST['calculate'])) {
                 IF_1*ones(size(R(:,1)))];
             */
 
+
             $mu_R1 = $mu_R2 = $logQS_1_ones = $IF_1_ones = [];
 
             for($i = 0; $i < $_iter; $i++){
-                array_push($mu_R1,  $R[$i][0]);
-                array_push($mu_R2,  $R[$i][1]);
+                //array_push($mu_R1,  $R[$i][0]);
+                //array_push($mu_R2,  $R[$i][1]);
                 array_push($logQS_1_ones, $logQS_1 * 1);
                 array_push($IF_1_ones, $IF_1 * 1);
             }
+            
+            /*
             $mu = [ 
                 $mu_R1,
                 $mu_R2,
                 $logQS_1_ones,
                 $IF_1_ones
             ];
+            */
+            $mu = [ 
+                [
+                    1.8068,
+                    1.6603,
+                    0.8947,
+                    1.6481,
+                    1.3674,
+                    1.2913,
+                    1.2002,
+                    1.5206,
+                    0.7649,
+                    2.2911
+                ],[ 
+                    5.6203,
+                    3.9979,
+                    3.1265,
+                    1.8765,
+                    6.4940,
+                    3.2905,
+                    1.6166,
+                    7.5618,
+                    2.4707,
+                    3.1414,
+                ], 
+                    $logQS_1_ones,
+                    $IF_1_ones
+            ];
+
 
             $mu = array_map(null, ...$mu);
         
@@ -246,7 +301,11 @@ if (isset($_POST['calculate'])) {
         
                 for($a = 0; $a < 4; $a++){
                     $euclidean = new Phpml\Math\Distance\Euclidean();
+                    //print_r($X[$a]);
+                    //print_r($mu[$i]);
                     $D[$a] = $euclidean->distance($X[$a], $mu[$i]);
+                    //print_r($D);
+                    //print_r("<br>");
                 }
                 //print_r($D);
                 $M = min($D);
@@ -267,17 +326,47 @@ if (isset($_POST['calculate'])) {
                 }
             }
             
-            //print_r($j);
+            print_r($j);
             //die;
 
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
 
-            $_inf_year = min($Clust[$near_clust][3]);
-            $_sup_year = max($Clust[$near_clust][3]);
+            //print_r($max_prob);
+            //print_r("-");
+            //print_r($near_clust );
 
-            $_inf_qs = ceil(pow(10, min($Clust[$near_clust][2])));
-            $_sup_qs = floor(pow(10, max($Clust[$near_clust][2])));  
+            //print_r("_inf_year:");
+
+            //print_r($Clust[$near_clust]); 
+            $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
+
+            print_r($Clust_evaluate);
+            $year_min = [
+                min($Clust_evaluate[0]),
+                min($Clust_evaluate[1]),
+                min($Clust_evaluate[2]),
+                min($Clust_evaluate[3]),
+                min($Clust_evaluate[4])
+            ];
+            $year_max = [
+                max($Clust_evaluate[0]),
+                max($Clust_evaluate[1]),
+                max($Clust_evaluate[2]),
+                max($Clust_evaluate[3]),
+                max($Clust_evaluate[4])
+            ];
+
+            $_inf_year = $year_min[3];
+            $_sup_year = $year_max[3];
+
+           
+
+            $_inf_qs = ceil(pow(10, $year_min[2]));
+            $_sup_qs = floor(pow(10, $year_max[2]));  
+
+            
+
 
             //var_dump($_inf_year);
             //var_dump($_sup_year);
