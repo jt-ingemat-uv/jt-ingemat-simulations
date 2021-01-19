@@ -1084,12 +1084,12 @@ if (isset($_POST['calculate'])) {
                             <input class="input--style-6" type="text" name="token" id="token">
                         </div>
                         <div class="form-row">
-                            <h4>What is the QS rank of the university you currently work at?</h4>
+                            <h4>What is your Graduation University QS rank?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_1" id="preg_1">
                         </div>
                         <div class="form-row">
-                            <h4>What is your current Impact Factor average?</h4>
+                            <h4>What is the QS rank of the university you currently work at?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_2" id="preg_2">
                         </div>
@@ -1119,11 +1119,11 @@ if (isset($_POST['calculate'])) {
             <div class="wrapper wrapper--w900">
             <div class="card card-6">
                 <div class="card-heading">
-                    <h2 class="title">simulation.m</h2>
+                    <h2 class="title">simulation_asoc.m</h2>
                 </div>
                 <?php if($no_autorizado== FALSE): ?>
                 <div class="card-body">
-                    <form accept-charset="utf-8" method="POST" action="simulation.php">
+                    <form accept-charset="utf-8" method="POST" action="simulation_asoc.php">
                         <div class="form-row">
                             <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?>,</h4>
                             <h4>years since your graduation, in a university with a QS rank between  <?php echo $_inf_qs; ?> and <?php echo $_sup_qs; ?></h4>
