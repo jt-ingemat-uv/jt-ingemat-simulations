@@ -265,36 +265,25 @@ if (isset($_POST['calculate'])) {
             
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
-            /*
             $m_pr = $max_prob/1000;
-            $j_pr = $j/1000;
-          
-            $color = [ "","azul", "rojo", "amarillo", "morado"];
+            $j_pr = [];
+            foreach ($j as $value) {
+                array_push($j_pr, $value/1000);
+            }
+            $color = ["azul", "rojo", "amarillo", "morado"];
             $select_color = $color[$near_clust];
-            */
-
             $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
 
-            $year_min = [
-                min($Clust_evaluate[0]),
-                min($Clust_evaluate[1]),
-                min($Clust_evaluate[2]),
-                min($Clust_evaluate[3]),
-                min($Clust_evaluate[4])
-            ];
-            $year_max = [
-                max($Clust_evaluate[0]),
-                max($Clust_evaluate[1]),
-                max($Clust_evaluate[2]),
-                max($Clust_evaluate[3]),
-                max($Clust_evaluate[4])
-            ];
+            $year_min = [min($Clust_evaluate[0]),min($Clust_evaluate[1]),min($Clust_evaluate[2]),min($Clust_evaluate[3]),min($Clust_evaluate[4])];
+            $year_max = [max($Clust_evaluate[0]),max($Clust_evaluate[1]),max($Clust_evaluate[2]),max($Clust_evaluate[3]),max($Clust_evaluate[4])];
 
             $_inf_year = $year_min[3];
             $_sup_year = $year_max[3];
 
             $_inf_qs = ceil(pow(10, $year_min[2]));
-            $_sup_qs = floor(pow(10, $year_max[2]));  
+            $_sup_qs = floor(pow(10, $year_max[2])); 
+            
+            $result = "You have a ".number_format($m_pr, 2)." probability to belong to cluster ".$select_color." The centroid for this cluster is XX and YY, with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
         }
     }else{
         $vista_resultado = TRUE;
@@ -1062,12 +1051,9 @@ if (isset($_POST['calculate'])) {
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation.php">
                         <div class="form-row">
-                            
-                            
+                            <h4> <?php echo result; ?> </h4>
                             <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?> years since your graduation, </h4>
                             <h4>in a university with a QS rank between  <?php echo $_inf_qs; ?> and <?php echo $_sup_qs; ?>.</h4>
-                            
-
                             <br>
                         </div>
                     </form>
