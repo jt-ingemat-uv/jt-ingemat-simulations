@@ -1062,13 +1062,7 @@ if (isset($_POST['calculate'])) {
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation.php">
                         <div class="form-row">
-                            <!--
-                            <h4>You have a <?php echo number_format($m_pr, 2); ?> probability to belong to cluster <?php echo $select_color; ?>.</h4>
-                            <h4>The centroid for this cluster is XX and YY, with a range of <?php echo number_format($_inf_qs, 2); ?> 
-                                and <?php echo number_format($_sup_qs, 2); ?> and <?php echo number_format($_inf_year, 2); ?> and <?php echo number_format($_sup_year,2); ?> 
-                                years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, 
-                                respectively.</h4>
-                            -->
+                            
                             
                             <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?> years since your graduation, </h4>
                             <h4>in a university with a QS rank between  <?php echo $_inf_qs; ?> and <?php echo $_sup_qs; ?>.</h4>
