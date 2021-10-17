@@ -270,7 +270,7 @@ if (isset($_POST['calculate'])) {
             foreach ($j as $value) {
                 array_push($j_pr, $value/1000);
             }
-            $color = ["azul", "rojo", "amarillo", "morado"];
+            $color = ["blue", "red", "yellow", "purple"];
             $select_color = $color[$near_clust];
             $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
 
