@@ -1051,7 +1051,7 @@ if (isset($_POST['calculate'])) {
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation.php">
                         <div class="form-row">
-                            <h4> <?php echo result; ?> </h4>
+                            <h4> <?php echo $result; ?> </h4>
                             <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?> years since your graduation, </h4>
                             <h4>in a university with a QS rank between  <?php echo $_inf_qs; ?> and <?php echo $_sup_qs; ?>.</h4>
                             <br>
