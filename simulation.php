@@ -1055,8 +1055,8 @@ if (isset($_POST['calculate'])) {
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation.php">
                         <div class="form-row">
-                            <h4>You have a <?php echo print_r($max_prob); ?> probability to belong to cluster <?php echo $near_clust; ?>. The centroid for this cluster is XX and YY,</h4>
-                            <h4>with a range of <?php echo print_r($_inf_qs); ?> and <?php echo print_r($_sup_qs); ?> and <?php echo print_r($_inf_year); ?> and <?php echo $_sup_year; ?> years for the QS rank of Hiring university as assistant professor,</h4>
+                            <h4>You have a <?php echo var_dump($max_prob); ?> probability to belong to cluster <?php echo $near_clust; ?>. The centroid for this cluster is XX and YY,</h4>
+                            <h4>with a range of <?php echo var_dump($_inf_qs); ?> and <?php echo var_dump($_sup_qs); ?> and <?php echo var_dump($_inf_year); ?> and <?php echo $_sup_year; ?> years for the QS rank of Hiring university as assistant professor,</h4>
                             <h4>and hiring year as assistant professor since the graduation year, respectively.</h4>
                             
                             <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?> years since your graduation, </h4>
