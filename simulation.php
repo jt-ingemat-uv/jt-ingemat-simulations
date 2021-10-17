@@ -269,9 +269,10 @@ if (isset($_POST['calculate'])) {
             $m_pr = $max_prob/1000;
             $j_pr = $j/1000;
             
-            $color = [ "azul", "rojo", "amarillo", "morado"];
-            $select_color = $color[$near_clust - 1];
-
+            /*
+            $color = [ "","azul", "rojo", "amarillo", "morado"];
+            $select_color = $color[$near_clust];
+            */
 
             $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
 
