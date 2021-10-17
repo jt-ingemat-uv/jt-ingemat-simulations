@@ -265,11 +265,10 @@ if (isset($_POST['calculate'])) {
             
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
-            
+            /*
             $m_pr = $max_prob/1000;
             $j_pr = $j/1000;
-            
-            /*
+          
             $color = [ "","azul", "rojo", "amarillo", "morado"];
             $select_color = $color[$near_clust];
             */
