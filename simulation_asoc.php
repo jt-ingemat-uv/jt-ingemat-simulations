@@ -321,17 +321,12 @@ if (isset($_POST['calculate'])) {
             foreach ($j as $value) {
                 array_push($j_pr, $value/1000);
             }
-            $color = [
-                "yellow",
-                "red",
-                "purple",
-                "blue"
-            ];
+            $color = ["yellow","red","purple","blue"];
             
             $centroid = [
-                "The assistant-centroid for the yellow cluster is represented by the vector, QS Rank of graduation University as PhD degree = 85, QS Rank of Hiring University as Assistant Professor = 95, QS Rank of promotion university as associate professor = 95, Numbers of years since PhD degree to Assistant Professorship Appointment = 3, Numbers of years Assistant to associate Professorship Appointment = 6, CMoJIF at hiring year as Assistant Professor = 5.22, CMoJIF at promotion year as associate Professor = 5.88"
-                "The assistant-centroid for the red cluster is represented by the vector, QS Rank of graduation University as PhD degree = 52, QS Rank of Hiring University as Assistant Professor = 123, QS Rank of promotion university as associate professor = 123, Numbers of years since PhD degree to Assistant Professorship Appointment = 10, Numbers of years Assistant to associate Professorship Appointment = 7, CMoJIF at hiring year as Assistant Professor = 6.89, CMoJIF at promotion year as associate Professor = 6.13"
-                "The assistant-centroid for the purple cluster is represented by the vector, QS Rank of graduation University as PhD degree = 30, QS Rank of Hiring University as Assistant Professor = 30, QS Rank of promotion university as associate professor = 19, Numbers of years since PhD degree to Assistant Professorship Appointment = 4, Numbers of years Assistant to associate Professorship Appointment = 7, CMoJIF at hiring year as Assistant Professor = 19.24, CMoJIF at promotion year as associate Professor = 16.53"
+                "The assistant-centroid for the yellow cluster is represented by the vector, QS Rank of graduation University as PhD degree = 85, QS Rank of Hiring University as Assistant Professor = 95, QS Rank of promotion university as associate professor = 95, Numbers of years since PhD degree to Assistant Professorship Appointment = 3, Numbers of years Assistant to associate Professorship Appointment = 6, CMoJIF at hiring year as Assistant Professor = 5.22, CMoJIF at promotion year as associate Professor = 5.88",
+                "The assistant-centroid for the red cluster is represented by the vector, QS Rank of graduation University as PhD degree = 52, QS Rank of Hiring University as Assistant Professor = 123, QS Rank of promotion university as associate professor = 123, Numbers of years since PhD degree to Assistant Professorship Appointment = 10, Numbers of years Assistant to associate Professorship Appointment = 7, CMoJIF at hiring year as Assistant Professor = 6.89, CMoJIF at promotion year as associate Professor = 6.13",
+                "The assistant-centroid for the purple cluster is represented by the vector, QS Rank of graduation University as PhD degree = 30, QS Rank of Hiring University as Assistant Professor = 30, QS Rank of promotion university as associate professor = 19, Numbers of years since PhD degree to Assistant Professorship Appointment = 4, Numbers of years Assistant to associate Professorship Appointment = 7, CMoJIF at hiring year as Assistant Professor = 19.24, CMoJIF at promotion year as associate Professor = 16.53",
                 "The assistant-centroid for the blue cluster is represented by the vector, QS Rank of graduation University as PhD degree = 24, QS Rank of Hiring University as Assistant Professor = 31, QS Rank of promotion university as associate professor = 33, Numbers of years since PhD degree to Assistant Professorship Appointment = 4, Numbers of years Assistant to associate Professorship Appointment = 8, CMoJIF at hiring year as Assistant Professor = 11.58, CMoJIF at promotion year as associate Professor = 10.05"
             ];
             
