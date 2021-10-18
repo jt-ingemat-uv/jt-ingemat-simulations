@@ -270,8 +270,23 @@ if (isset($_POST['calculate'])) {
             foreach ($j as $value) {
                 array_push($j_pr, $value/1000);
             }
-            $color = ["blue", "red", "yellow", "purple"];
+            $color = [
+                "blue", 
+                "red", 
+                "yellow", 
+                "purple"
+            ];
+            
+            $centroid = [
+                "The assistant-centroid for the blue cluster is represented by the vector QS Rank of graduation University as PhD degree = 28,QS Rank of Hiring University as Assistant Professor = 40, Numbers of years since PhD degree to Assistant Professorship Appointment = 4, CMoJIF at hiring year as Assistant Professor = 11.92",
+                "The assistant-centroid for the red cluster is represented by the vector, QS Rank of graduation University as PhD degree = 76, QS Rank of Hiring University as Assistant Professor = 123, Numbers of years since PhD degree to Assistant Professorship Appointment = 10, CMoJIF at hiring year as Assistant Professor = 7.09",
+                "The assistant-centroid for the yellow cluster is represented by the vector QS Rank of graduation University as PhD degree = 60, QS Rank of Hiring University as Assistant Professor = 72, Numbers of years since PhD degree to Assistant Professorship Appointment = 3, CMoJIF at hiring year as Assistant Professor = 5.66",
+                "The assistant-centroid for the purple cluster is represented by the vector QS Rank of graduation University as PhD degree = 30, QS Rank of Hiring University as Assistant Professor = 26, Numbers of years since PhD degree to Assistant Professorship Appointment = 5, CMoJIF at hiring year as Assistant Professor = 19.79"
+            ];
+                
             $select_color = $color[$near_clust];
+            $select_centroid = $centroid[$near_clust];
+            
             $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
 
             $year_min = [min($Clust_evaluate[0]),min($Clust_evaluate[1]),min($Clust_evaluate[2]),min($Clust_evaluate[3]),min($Clust_evaluate[4])];
@@ -283,7 +298,7 @@ if (isset($_POST['calculate'])) {
             $_inf_qs = ceil(pow(10, $year_min[2]));
             $_sup_qs = floor(pow(10, $year_max[2])); 
             
-            $result = "You have a ".number_format($m_pr, 2)." probability to belong to cluster ".$select_color.".\n The centroid for this cluster is XX and YY, with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
+            $result = "You have a ".number_format($m_pr, 2)." probability to belong to cluster ".$select_color.". with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
         }
     }else{
         $vista_resultado = TRUE;
@@ -1051,7 +1066,10 @@ if (isset($_POST['calculate'])) {
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation.php">
                         <div class="form-row">
+                            <br>
                             <h4> <?php echo $result; ?> </h4>
+                            <br>
+                            <h4> <?php echo $select_centroid; ?> </h4>
                             <br>
                         </div>
                     </form>
