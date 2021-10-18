@@ -1107,7 +1107,7 @@ if (isset($_POST['calculate'])) {
                             <input class="input--style-6" type="number" name="preg_4" id="preg_4">
                         </div>
                         <div class="form-row">
-                            <h4>What is your current Impact Factor average?</h4>
+                            <h4>What is your current CMoJIF average?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_5" id="preg_2">
                         </div>
@@ -1128,8 +1128,10 @@ if (isset($_POST['calculate'])) {
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation_asoc.php">
                         <div class="form-row">
-                            <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?>,</h4>
-                            <h4>years since your graduation, in a university with a QS rank between  <?php echo $_inf_qs; ?> and <?php echo $_sup_qs; ?></h4>
+                            <br>
+                            <h4> <?php echo $result; ?> </h4>
+                            <br>
+                            <h4> <?php echo $select_centroid; ?> </h4>
                             <br>
                         </div>
                     </form>
