@@ -1044,7 +1044,7 @@ if (isset($_POST['calculate'])) {
                             <input class="input--style-6" type="number" name="preg_1" id="preg_1">
                         </div>
                         <div class="form-row">
-                            <h4>What is your current Impact Factor average?</h4>
+                            <h4>What is your current CMoJIF average?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_2" id="preg_2">
                             
