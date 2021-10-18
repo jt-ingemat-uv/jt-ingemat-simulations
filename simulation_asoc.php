@@ -316,34 +316,42 @@ if (isset($_POST['calculate'])) {
             
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
+            $m_pr = $max_prob/1000;
+            $j_pr = [];
+            foreach ($j as $value) {
+                array_push($j_pr, $value/1000);
+            }
+            $color = [
+                "yellow",
+                "red",
+                "purple",
+                "blue"
+            ];
+            
+            $centroid = [
+                "The assistant-centroid for the yellow cluster is represented by the vector, QS Rank of graduation University as PhD degree = 85, QS Rank of Hiring University as Assistant Professor = 95, QS Rank of promotion university as associate professor = 95, Numbers of years since PhD degree to Assistant Professorship Appointment = 3, Numbers of years Assistant to associate Professorship Appointment = 6, CMoJIF at hiring year as Assistant Professor = 5.22, CMoJIF at promotion year as associate Professor = 5.88"
+                "The assistant-centroid for the red cluster is represented by the vector, QS Rank of graduation University as PhD degree = 52, QS Rank of Hiring University as Assistant Professor = 123, QS Rank of promotion university as associate professor = 123, Numbers of years since PhD degree to Assistant Professorship Appointment = 10, Numbers of years Assistant to associate Professorship Appointment = 7, CMoJIF at hiring year as Assistant Professor = 6.89, CMoJIF at promotion year as associate Professor = 6.13"
+                "The assistant-centroid for the purple cluster is represented by the vector, QS Rank of graduation University as PhD degree = 30, QS Rank of Hiring University as Assistant Professor = 30, QS Rank of promotion university as associate professor = 19, Numbers of years since PhD degree to Assistant Professorship Appointment = 4, Numbers of years Assistant to associate Professorship Appointment = 7, CMoJIF at hiring year as Assistant Professor = 19.24, CMoJIF at promotion year as associate Professor = 16.53"
+                "The assistant-centroid for the blue cluster is represented by the vector, QS Rank of graduation University as PhD degree = 24, QS Rank of Hiring University as Assistant Professor = 31, QS Rank of promotion university as associate professor = 33, Numbers of years since PhD degree to Assistant Professorship Appointment = 4, Numbers of years Assistant to associate Professorship Appointment = 8, CMoJIF at hiring year as Assistant Professor = 11.58, CMoJIF at promotion year as associate Professor = 10.05"
+            ];
+            
+            $select_color = $color[$near_clust];
+            $select_centroid = $centroid[$near_clust];
+            
 
             $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
 
-            $year_min = [
-                min($Clust_evaluate[0]),
-                min($Clust_evaluate[1]),
-                min($Clust_evaluate[2]),
-                min($Clust_evaluate[3]),
-                min($Clust_evaluate[5]),
-                min($Clust_evaluate[6]),
-                min($Clust_evaluate[7])
-            ];
-            $year_max = [
-                max($Clust_evaluate[0]),
-                max($Clust_evaluate[1]),
-                max($Clust_evaluate[2]),
-                max($Clust_evaluate[3]),
-                max($Clust_evaluate[4]),
-                max($Clust_evaluate[5]),
-                max($Clust_evaluate[6]),
-                max($Clust_evaluate[7])
-            ];
+            $year_min = [min($Clust_evaluate[0]),min($Clust_evaluate[1]),min($Clust_evaluate[2]),min($Clust_evaluate[3]),min($Clust_evaluate[4]),min($Clust_evaluate[5]),min($Clust_evaluate[6]),min($Clust_evaluate[7])];
+            $year_max = [max($Clust_evaluate[0]),max($Clust_evaluate[1]),max($Clust_evaluate[2]),max($Clust_evaluate[3]),max($Clust_evaluate[4]),max($Clust_evaluate[5]),max($Clust_evaluate[6]),max($Clust_evaluate[7])];
 
             $_inf_year = $year_min[5];
             $_sup_year = $year_max[5];
 
             $_inf_qs = ceil(pow(10, $year_min[3]));
             $_sup_qs = floor(pow(10, $year_max[3]));  
+            
+            $result = "You have a ".number_format($m_pr, 2)." probability to belong to ".$select_color.". cluster with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
+
         }
     }else{
         $vista_resultado = TRUE;
