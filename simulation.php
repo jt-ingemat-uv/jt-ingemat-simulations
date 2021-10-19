@@ -1041,13 +1041,13 @@ if (isset($_POST['calculate'])) {
                         <div class="form-row">
                             <h4>What is your Graduation University QS rank?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_1" id="preg_1">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_1" id="preg_1">
                             <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>What is your current CMoJIF average?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_2" id="preg_2">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_2" id="preg_2">
                             <h6>American format numbers, example (3.4)</h6>
                             
                         </div>
