@@ -29,8 +29,8 @@ function boxMuller($n){
 if (isset($_POST['calculate'])) {
     $token = isset($_POST["token"]) ? $_POST["token"] : "";
     if($token == "fsdtyu234jkhfsd8234"){
-        $preg_1 = isset($_POST["preg_1"]) ? intval($_POST["preg_1"]) : 0;
-        $preg_2 = isset($_POST["preg_2"]) ? intval($_POST["preg_2"]) : 0;
+        $preg_1 = isset($_POST["preg_1"]) ? floatval($_POST["preg_1"]) : 0;
+        $preg_2 = isset($_POST["preg_2"]) ? floatval($_POST["preg_2"]) : 0;
         if($preg_1 > 0 && $preg_2 > 0){
 
             $vista_resultado = TRUE;
