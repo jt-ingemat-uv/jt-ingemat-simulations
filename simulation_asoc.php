@@ -345,7 +345,7 @@ if (isset($_POST['calculate'])) {
             $_inf_qs = ceil(pow(10, $year_min[3]));
             $_sup_qs = floor(pow(10, $year_max[3]));  
             
-            $result = "You have a ".number_format($m_pr, 2)." probability to belong to ".$select_color.". cluster with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
+            $result = "You have a ".number_format($m_pr, 4)." probability to belong to ".$select_color.". cluster with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
 
         }
     }else{
