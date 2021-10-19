@@ -1105,7 +1105,7 @@ if (isset($_POST['calculate'])) {
                             <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
-                            <h4>What was your Impact Factor average when you were hired?</h4>
+                            <h4>What was your CMoJIF average when you were hired?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_4" id="preg_4">
                             <h6>American format numbers, example (3.4)</h6>
