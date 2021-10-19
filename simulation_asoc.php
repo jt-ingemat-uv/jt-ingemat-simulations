@@ -26,11 +26,11 @@ function boxMuller($n){
 if (isset($_POST['calculate'])) {
     $token = isset($_POST["token"]) ? $_POST["token"] : "";
     if($token == "fsdtyu234jkhfsd8234"){
-        $preg_1 = isset($_POST["preg_1"]) ? intval($_POST["preg_1"]) : 0;
-        $preg_2 = isset($_POST["preg_2"]) ? intval($_POST["preg_2"]) : 0;
-        $preg_3 = isset($_POST["preg_3"]) ? intval($_POST["preg_3"]) : 0;
-        $preg_4 = isset($_POST["preg_4"]) ? intval($_POST["preg_4"]) : 0;
-        $preg_5 = isset($_POST["preg_5"]) ? intval($_POST["preg_5"]) : 0;
+        $preg_1 = isset($_POST["preg_1"]) ? floatval($_POST["preg_1"]) : 0;
+        $preg_2 = isset($_POST["preg_2"]) ? floatval($_POST["preg_2"]) : 0;
+        $preg_3 = isset($_POST["preg_3"]) ? floatval($_POST["preg_3"]) : 0;
+        $preg_4 = isset($_POST["preg_4"]) ? floatval($_POST["preg_4"]) : 0;
+        $preg_5 = isset($_POST["preg_5"]) ? floatval($_POST["preg_5"]) : 0;
 
 
         if($preg_1 > 0 && $preg_2 > 0 && $preg_3 > 0 && $preg_4 > 0 && $preg_5 > 0 ){
@@ -1089,31 +1089,31 @@ if (isset($_POST['calculate'])) {
                         <div class="form-row">
                             <h4>What is your Graduation University QS rank?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_1" id="preg_1">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_1" id="preg_1">
                             <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>What is the QS rank of the university you currently work at?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_2" id="preg_2">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_2" id="preg_2">
                             <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>How long did it take you to get hired since your graduation (in years)?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_3" id="preg_3">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_3" id="preg_3">
                             <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>What was your CMoJIF average when you were hired?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_4" id="preg_4">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_4" id="preg_4">
                             <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>What is your current CMoJIF average?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_5" id="preg_2">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_5" id="preg_2">
                             <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="card-footer">
