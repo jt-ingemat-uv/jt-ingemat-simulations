@@ -1090,26 +1090,31 @@ if (isset($_POST['calculate'])) {
                             <h4>What is your Graduation University QS rank?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_1" id="preg_1">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>What is the QS rank of the university you currently work at?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_2" id="preg_2">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>How long did it take you to get hired since your graduation (in years)?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_3" id="preg_3">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>What was your Impact Factor average when you were hired?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_4" id="preg_4">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>What is your current CMoJIF average?</h4>
                             <br><br>
                             <input class="input--style-6" type="number" name="preg_5" id="preg_2">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="card-footer">
                             <button class="btn btn--radius-2 btn--blue-2" type="submit" name ="calculate" value="calculate">Calculate</button>
