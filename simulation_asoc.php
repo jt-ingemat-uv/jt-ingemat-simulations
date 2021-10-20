@@ -151,7 +151,6 @@ if (isset($_POST['calculate'])) {
             $IF_HY      = $preg_4;
             $IF_PY      = $preg_5;
                 
-            //$AB_0 = new NumPHP\Core\NumArray([$logQS_1, $IF_1]);
             $AB_0 = [$logQS_PhD, $logQS_HU, $HY, $IF_HY, $IF_PY];
 
             //$M_CO = new NumPHP\Core\NumArray([$XY, $AB]);
@@ -313,6 +312,7 @@ if (isset($_POST['calculate'])) {
                     $j[3] = $j[3] + 1;
                 }
             }
+            var_dump($j);
             
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
