@@ -222,12 +222,14 @@ if (isset($_POST['calculate'])) {
             $AB_0_AB_m = new NumPHP\Core\NumArray($_aux);
             $XY_m = new NumPHP\Core\NumArray([$XY_m]);
             
-            print_r($AB_0_AB_m);
+            //print_r($AB_0_AB_m);
             
             // $AB_0_AB_m = $AB_0_AB_m->getTranspose();
 
-            // $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose());
-            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0N->add($AB_mN->dot(-1)))->getTranspose())->getTranspose());
+            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose())->getData();
+            $ESP_multi = new NumPHP\Core\NumArray($ESP_multi); 
+            
+            // $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0N->add($AB_mN->dot(-1)))->getTranspose())->getTranspose());
             
             unset($CO_12N);
 
