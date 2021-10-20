@@ -226,7 +226,8 @@ if (isset($_POST['calculate'])) {
             
             $AB_0_AB_m = $AB_0_AB_m->getTranspose();
 
-            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose());
+            // $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose());
+            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0N->add($AB_mN->dot(-1)))->getTranspose())->getTranspose());
             
             unset($CO_12N);
 
