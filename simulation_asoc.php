@@ -217,7 +217,7 @@ if (isset($_POST['calculate'])) {
             $AB_0_AB_m = new NumPHP\Core\NumArray($_aux);
             $XY_m = new NumPHP\Core\NumArray([$XY_m]);
 
-            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose());
+            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m->getTranspose()))->getTranspose());
             
             unset($CO_12N);
 
