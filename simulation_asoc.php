@@ -1,8 +1,8 @@
 <?php 
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -36,7 +36,8 @@ if (isset($_POST['calculate'])) {
         $preg_3 = isset($_POST["preg_3"]) ? floatval($_POST["preg_3"]) : 0;
         $preg_4 = isset($_POST["preg_4"]) ? floatval($_POST["preg_4"]) : 0;
         $preg_5 = isset($_POST["preg_5"]) ? floatval($_POST["preg_5"]) : 0;
-
+        
+        print_r([$preg_1, $preg_2, $preg_3, $preg_4, $preg_5]);
 
         if($preg_1 > 0 && $preg_2 > 0 && $preg_3 > 0 && $preg_4 > 0 && $preg_5 > 0 ){
 
