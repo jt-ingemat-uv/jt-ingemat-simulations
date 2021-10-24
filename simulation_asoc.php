@@ -292,6 +292,9 @@ if (isset($_POST['calculate'])) {
             print_r($mu);
 
             $mu = array_map(null, ...$mu);
+            
+            print_r($X[0]);
+            print_r($mu[0]);
 
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
