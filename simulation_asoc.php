@@ -340,7 +340,7 @@ if (isset($_POST['calculate'])) {
                 for($a = 0; $a < 4; $a++){
                     $D[$a] = distance($HANDWRITTEN_X[$a], $mu[$i]);    
                 }
-                // print_r($D);
+                print_r($D);
                 $M = min($D);
                 $I = array_search($M, $D);
         
@@ -355,14 +355,14 @@ if (isset($_POST['calculate'])) {
                 }
             }
             
-            // echo "disp('----------J-----------')";
-            // print_r($j);
-            // echo "disp('----------J-----------')";
+            echo "disp('----------J-----------')";
+            print_r($j);
+            echo "disp('----------J-----------')";
             
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
             $m_pr = $max_prob/1000;
-            $j_pr = [];
+            $j_pr = [0, 0, 0, 0];
             
             foreach ($j as $value) {
                 array_push($j_pr, $value/1000);
