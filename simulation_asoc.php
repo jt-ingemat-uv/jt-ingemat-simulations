@@ -322,9 +322,13 @@ if (isset($_POST['calculate'])) {
             $near_clust = array_search($max_prob, $j);
             $m_pr = $max_prob/1000;
             $j_pr = [];
+            
             foreach ($j as $value) {
                 array_push($j_pr, $value/1000);
             }
+            
+            print_r($j_pr);
+            
             $color = ["yellow","red","purple","blue"];
             
             $centroid = [
