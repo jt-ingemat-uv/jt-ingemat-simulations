@@ -248,15 +248,11 @@ if (isset($_POST['calculate'])) {
             $ESP_multi = array_map(null, ...$ESP_multi);
 
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
-            print_r($R);
+
             foreach ($R as $key => $value) {
                 $R[$key] = [$R[$key][0] + $ESP_multi[0], $R[$key][1] + $ESP_multi[1]];
             }
             
-            echo "disp('----------R-----------')";
-            print_r($R);
-            echo "disp('----------R-----------')";
-
             /* Estructura de asignacion MATLAB
             mu = [
                     AB_0(1)*ones(size(R(:,1))) 
@@ -296,9 +292,6 @@ if (isset($_POST['calculate'])) {
 
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
-            echo "disp('----------X-----------')";
-            print_r($X);
-            echo "disp('----------X-----------')";
 
             for($i = 0; $i < $_iter; $i++){
         
