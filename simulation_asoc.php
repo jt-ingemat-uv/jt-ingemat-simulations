@@ -1,8 +1,8 @@
 <?php 
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -256,11 +256,11 @@ if (isset($_POST['calculate'])) {
             $ESP_multi = $ESP_multi->getData();
             $ESP_multi = array_map(null, ...$ESP_multi);
             
-            // print_r($ESP_multi);
-            // print_r($V_multi->getData());
+            print_r($ESP_multi);
+            print_r($V_multi->getData());
 
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
-            // print_r($R);
+            print_r($R);
 
             foreach ($R as $key => $value) {
                 $R[$key] = [$R[$key][0] + $ESP_multi[0], $R[$key][1] + $ESP_multi[1]];
@@ -299,35 +299,36 @@ if (isset($_POST['calculate'])) {
                 $mu_R2
             ];
             
-            // print_r($mu);
+            print_r($mu);
 
-            // $mu = array_map(null, ...$mu);
-           
-            // print_r("-------------------X----------\n");
-            // print_r($X);
-            // print_r("-------------------X----------\n");
+            $mu = array_map(null, ...$mu);
             
-            // print_r($X[0]);
-            // print_r($mu[0]);
+            
+            print_r("-------------------X----------\n");
+            print_r($X);
+            print_r("-------------------X----------\n");
+            
+            print_r($X[0]);
+            print_r($mu[0]);
             $TEST = [0, 0, 0, 0];
+            
+            for($a = 0; $a < 4; $a++){
+                    $TEST[$a] = distance($X[$a], $mu[0]);    
+                }
+            print_r("-------------------TEST----------");
+            print_r($TEST);
+            print_r("-------------------TEST----------");
+            
+            $TEST2 = [0, 0, 0, 0];
             $HANDWRITTEN_X = [
                 [1.9294, 1.9828, 3.2083, 5.2212, 5.8806, 1.9774, 6.4167],
                 [1.7234, 2.0928, 10.3636, 6.8926, 6.1310, 2.0878, 7.1818],
                 [1.4719, 1.4666, 4.4286, 19.2354, 16.5259, 1.2874, 6.9286],
                 [1.3805, 1.4943, 4.2791, 11.5814, 10.0516, 1.5200, 8.4884]
                  ];
-            
             for($a = 0; $a < 4; $a++){
-                $TEST[$a] = distance($HANDWRITTEN_X[$a], $mu[0]);    
+                    $TEST2[$a] = distance($HANDWRITTEN_X[$a],[1.0000, 2.1139, 5.0000, 15.0000, 14.3000, 2.1052, 3.6665]);    
                 }
-            print_r("-------------------TEST----------\n");
-            print_r($TEST);
-            print_r("-------------------TEST----------\n");
-            
-            $TEST2 = [0, 0, 0, 0];
-            for($a = 0; $a < 4; $a++){
-                   $TEST2[$a] = distance($HANDWRITTEN_X[$a],[1.0000, 2.1139, 5.0000, 15.0000, 14.3000, 2.1052, 3.6665]);    
-               }
             print_r("-------------------TEST2----------");
             print_r($TEST2);
             print_r("-------------------TEST2----------");
@@ -362,13 +363,13 @@ if (isset($_POST['calculate'])) {
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
             $m_pr = $max_prob/1000;
-            $j_pr = [0, 0, 0, 0];
+            $j_pr = [];
             
             foreach ($j as $value) {
                 array_push($j_pr, $value/1000);
             }
             
-            // print_r($j_pr);
+            print_r($j_pr);
             
             $color = ["yellow","red","purple","blue"];
             
@@ -394,7 +395,7 @@ if (isset($_POST['calculate'])) {
             $_inf_qs = ceil(pow(10, $year_min[3]));
             $_sup_qs = floor(pow(10, $year_max[3]));  
             
-            $result = "You have a ".number_format($m_pr, 4)." probability to belong to ".$select_color." cluster with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
+            $result = "You have a ".number_format($m_pr, 4)." probability to belong to ".$select_color.". cluster with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
 
         }
     }else{
