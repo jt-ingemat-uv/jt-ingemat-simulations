@@ -246,11 +246,12 @@ if (isset($_POST['calculate'])) {
 
             $ESP_multi = $ESP_multi->getData();
             $ESP_multi = array_map(null, ...$ESP_multi);
+            $mean_ESP_multi = ($ESP_multi[0] + $ESP_multi[1])/2;
 
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
             print_r($R);
             foreach ($R as $key => $value) {
-                $R[$key] = [ $R[$key][0] + $ESP_multi[0] , $R[$key][1] + $ESP_multi[1] ];
+                $R[$key] = [ $R[$key][0] + $mean_ESP_multi , $R[$key][1] + $mean_ESP_multi ];
             }
             
             echo "disp('----------R-----------')";
