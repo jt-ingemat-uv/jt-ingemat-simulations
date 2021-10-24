@@ -1,8 +1,8 @@
 <?php 
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -250,7 +250,7 @@ if (isset($_POST['calculate'])) {
             R = mvnrnd(mu,          cholesky($V_multi),     boxMuller($_iter))
             R = mu + At*A
             */            
-            $_iter = 100;
+            $_iter = 1000;
             $n = new NumPHP\Core\NumArray(boxMuller($_iter));
 
             $ESP_multi = $ESP_multi->getData();
