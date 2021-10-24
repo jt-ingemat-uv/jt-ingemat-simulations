@@ -233,6 +233,8 @@ if (isset($_POST['calculate'])) {
 
             $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose())->getData();
             $ESP_multi = new NumPHP\Core\NumArray($ESP_multi); 
+            print_r("$ESP_multi");
+            print_r($ESP_multi);
             
             // $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0N->add($AB_mN->dot(-1)))->getTranspose())->getTranspose());
             
@@ -241,6 +243,8 @@ if (isset($_POST['calculate'])) {
             $CO_12N = new NumPHP\Core\NumArray($CO_12);
 
             $V_multi = $CO_11N->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($CO_21N))->dot(-1));
+            print_r("$V_multi");
+            print_r($V_multi);
 
             $sigma = $V_multi->getData();
             unset($V_multi);
