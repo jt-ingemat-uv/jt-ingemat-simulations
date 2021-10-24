@@ -251,7 +251,9 @@ if (isset($_POST['calculate'])) {
             foreach ($R as $key => $value) {
                 $R[$key] = [ $R[$key][0] + $_aux[0] , $R[$key][1] + $_aux[1]];
             }
+            echo "disp('----------R-----------')";
             print_r($R);
+            echo "disp('----------R-----------')";
 
             /* Estructura de asignacion MATLAB
             mu = [
@@ -311,7 +313,6 @@ if (isset($_POST['calculate'])) {
                     $j[3] = $j[3] + 1;
                 }
             }
-            var_dump($j);
             
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
