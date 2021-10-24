@@ -315,9 +315,9 @@ if (isset($_POST['calculate'])) {
             for($a = 0; $a < 4; $a++){
                     $TEST[$a] = distance($X[$a], $mu[0]);    
                 }
-            print_r("-------------------TEST----------");
-            print_r($TEST);
-            print_r("-------------------TEST----------");
+            // print_r("-------------------TEST----------");
+            // print_r($TEST);
+            // print_r("-------------------TEST----------");
             
             $TEST2 = [0, 0, 0, 0];
             $HANDWRITTEN_X = [
@@ -329,9 +329,9 @@ if (isset($_POST['calculate'])) {
             for($a = 0; $a < 4; $a++){
                     $TEST2[$a] = distance($HANDWRITTEN_X[$a],[1.0000, 2.1139, 5.0000, 15.0000, 14.3000, 2.1052, 3.6665]);    
                 }
-            print_r("-------------------TEST2----------");
-            print_r($TEST2);
-            print_r("-------------------TEST2----------");
+            // print_r("-------------------TEST2----------");
+            // print_r($TEST2);
+            // print_r("-------------------TEST2----------");
             
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
@@ -341,7 +341,7 @@ if (isset($_POST['calculate'])) {
                 for($a = 0; $a < 4; $a++){
                     $D[$a] = distance($HANDWRITTEN_X[$a], $mu[$i]);    
                 }
-                print_r($D);
+                // print_r($D);
                 $M = min($D);
                 $I = array_search($M, $D);
         
@@ -395,7 +395,7 @@ if (isset($_POST['calculate'])) {
             $_inf_qs = ceil(pow(10, $year_min[3]));
             $_sup_qs = floor(pow(10, $year_max[3]));  
             
-            $result = "You have a ".number_format($m_pr, 4)." probability to belong to ".$select_color.". cluster with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
+            $result = "You have a ".number_format($m_pr, 4)." probability to belong to ".$select_color." cluster with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
 
         }
     }else{
