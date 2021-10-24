@@ -36,13 +36,8 @@ if (isset($_POST['calculate'])) {
         $preg_3 = isset($_POST["preg_3"]) ? floatval($_POST["preg_3"]) : 0;
         $preg_4 = isset($_POST["preg_4"]) ? floatval($_POST["preg_4"]) : 0;
         $preg_5 = isset($_POST["preg_5"]) ? floatval($_POST["preg_5"]) : 0;
-        
-        print_r([$preg_1, $preg_2, $preg_3, $preg_4, $preg_5]);
-
         if($preg_1 > 0 && $preg_2 > 0 && $preg_3 > 0 && $preg_4 > 0 && $preg_5 > 0 ){
-
             $vista_resultado = TRUE;
-
             $_V_1 = $_V_2 = $_V_3 = $_V_4 = $_V_5 = $_V_6 = $_V_7 = array(); 
             $archivo = fopen("load_data/Var-logqs-asoc.csv", "r");
             while (($datos = fgetcsv($archivo, ";")) == true) {
@@ -146,7 +141,6 @@ if (isset($_POST['calculate'])) {
                     ] );
         
             $XY = [$V_6->getData(), $V_7->getData()];
-
             $AB = [$V_1->getData(), $V_2->getData(), $V_3->getData(), $V_4->getData(), $V_5->getData()];
 
             $QS_PhD     = $preg_1;
@@ -158,9 +152,6 @@ if (isset($_POST['calculate'])) {
             $IF_PY      = $preg_5;
                 
             $AB_0 = [$logQS_PhD, $logQS_HU, $HY, $IF_HY, $IF_PY];
-            var_dump($AB_0);
-
-            //$M_CO = new NumPHP\Core\NumArray([$XY, $AB]);
             
             $CO = array(
                     [ 0.3168, -0.2089,  0.1315,  0.3028,  0.3845, -1.3253,  -0.9226],
@@ -220,21 +211,13 @@ if (isset($_POST['calculate'])) {
             foreach ($AB_0_AB_m as $value) {
                 array_push($_aux, [$value]);
             }
-        
+       
             $AB_0_AB_m = new NumPHP\Core\NumArray($_aux);
-            print_r($AB_0_AB_m);
-            
-            
             $XY_m = new NumPHP\Core\NumArray([$XY_m]);
             
-            //print_r($AB_0_AB_m);
-            
-            // $AB_0_AB_m = $AB_0_AB_m->getTranspose();
-
+       
             $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose())->getData();
             $ESP_multi = new NumPHP\Core\NumArray($ESP_multi); 
-            print_r("$ESP_multi");
-            print_r($ESP_multi);
             
             // $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0N->add($AB_mN->dot(-1)))->getTranspose())->getTranspose());
             
@@ -243,8 +226,6 @@ if (isset($_POST['calculate'])) {
             $CO_12N = new NumPHP\Core\NumArray($CO_12);
 
             $V_multi = $CO_11N->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($CO_21N))->dot(-1));
-            print_r("$V_multi");
-            print_r($V_multi);
 
             $sigma = $V_multi->getData();
             unset($V_multi);
@@ -254,10 +235,6 @@ if (isset($_POST['calculate'])) {
                 }
             }
             $V_multi = new NumPHP\Core\NumArray($sigma);
-
-            
-            //print_r($ESP_multi);
-            //print_r($V_multi);
 
             /* 
             R = mvnrnd(ESP_multi,   V_multi,                1000); 
@@ -274,6 +251,7 @@ if (isset($_POST['calculate'])) {
             foreach ($R as $key => $value) {
                 $R[$key] = [ $R[$key][0] + $_aux[0] , $R[$key][1] + $_aux[1]];
             }
+            print_r($R);
 
             /* Estructura de asignacion MATLAB
             mu = [
