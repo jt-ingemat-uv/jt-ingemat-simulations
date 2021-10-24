@@ -244,12 +244,13 @@ if (isset($_POST['calculate'])) {
             $_iter = 10;
             $n = new NumPHP\Core\NumArray(boxMuller($_iter));
 
-            $_aux = $ESP_multi->getData();
-            $_aux = array_map(null, ...$_aux);
+            $ESP_multi = $ESP_multi->getData();
+            $ESP_multi = array_map(null, ...$ESP_multi);
 
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
+            print_r($R);
             foreach ($R as $key => $value) {
-                $R[$key] = [ $R[$key][0] + $_aux[$key][0] , $R[$key][1] + $_aux[$key][1]];
+                $R[$key] = [ $R[$key][0] + $ESP_multi[0] , $R[$key][1] + $ESP_multi[1] ];
             }
             
             echo "disp('----------R-----------')";
