@@ -1,5 +1,10 @@
 <?php 
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 use  NumPHP\LinAlg\LinAlg;
@@ -23,20 +28,25 @@ function boxMuller($n){
     return $_M;
 }
 
+function distance($vector1, $vector2){
+    $n = count($vector1);
+    $sum = 0;
+    for ($i = 0; $i < $n; $i++) {
+        $sum += ($vector1[$i] - $vector2[$i]) * ($vector1[$i] - $vector2[$i]);
+    }
+    return sqrt($sum);
+}
+
 if (isset($_POST['calculate'])) {
     $token = isset($_POST["token"]) ? $_POST["token"] : "";
     if($token == "fsdtyu234jkhfsd8234"){
-        $preg_1 = isset($_POST["preg_1"]) ? intval($_POST["preg_1"]) : 0;
-        $preg_2 = isset($_POST["preg_2"]) ? intval($_POST["preg_2"]) : 0;
-        $preg_3 = isset($_POST["preg_3"]) ? intval($_POST["preg_3"]) : 0;
-        $preg_4 = isset($_POST["preg_4"]) ? intval($_POST["preg_4"]) : 0;
-        $preg_5 = isset($_POST["preg_5"]) ? intval($_POST["preg_5"]) : 0;
-
-
+        $preg_1 = isset($_POST["preg_1"]) ? floatval($_POST["preg_1"]) : 0;
+        $preg_2 = isset($_POST["preg_2"]) ? floatval($_POST["preg_2"]) : 0;
+        $preg_3 = isset($_POST["preg_3"]) ? floatval($_POST["preg_3"]) : 0;
+        $preg_4 = isset($_POST["preg_4"]) ? floatval($_POST["preg_4"]) : 0;
+        $preg_5 = isset($_POST["preg_5"]) ? floatval($_POST["preg_5"]) : 0;
         if($preg_1 > 0 && $preg_2 > 0 && $preg_3 > 0 && $preg_4 > 0 && $preg_5 > 0 ){
-
             $vista_resultado = TRUE;
-
             $_V_1 = $_V_2 = $_V_3 = $_V_4 = $_V_5 = $_V_6 = $_V_7 = array(); 
             $archivo = fopen("load_data/Var-logqs-asoc.csv", "r");
             while (($datos = fgetcsv($archivo, ";")) == true) {
@@ -140,7 +150,6 @@ if (isset($_POST['calculate'])) {
                     ] );
         
             $XY = [$V_6->getData(), $V_7->getData()];
-
             $AB = [$V_1->getData(), $V_2->getData(), $V_3->getData(), $V_4->getData(), $V_5->getData()];
 
             $QS_PhD     = $preg_1;
@@ -151,10 +160,7 @@ if (isset($_POST['calculate'])) {
             $IF_HY      = $preg_4;
             $IF_PY      = $preg_5;
                 
-            //$AB_0 = new NumPHP\Core\NumArray([$logQS_1, $IF_1]);
             $AB_0 = [$logQS_PhD, $logQS_HU, $HY, $IF_HY, $IF_PY];
-
-            //$M_CO = new NumPHP\Core\NumArray([$XY, $AB]);
             
             $CO = array(
                     [ 0.3168, -0.2089,  0.1315,  0.3028,  0.3845, -1.3253,  -0.9226],
@@ -214,11 +220,15 @@ if (isset($_POST['calculate'])) {
             foreach ($AB_0_AB_m as $value) {
                 array_push($_aux, [$value]);
             }
-        
+       
             $AB_0_AB_m = new NumPHP\Core\NumArray($_aux);
             $XY_m = new NumPHP\Core\NumArray([$XY_m]);
-
-            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose());
+            
+       
+            $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0_AB_m))->getTranspose())->getData();
+            $ESP_multi = new NumPHP\Core\NumArray($ESP_multi); 
+            
+            // $ESP_multi = $XY_m->add($CO_12N->dot(LinAlg::inv($CO_22N)->dot($AB_0N->add($AB_mN->dot(-1)))->getTranspose())->getTranspose());
             
             unset($CO_12N);
 
@@ -235,26 +245,26 @@ if (isset($_POST['calculate'])) {
             }
             $V_multi = new NumPHP\Core\NumArray($sigma);
 
-            
-            //print_r($ESP_multi);
-            //print_r($V_multi);
-
             /* 
             R = mvnrnd(ESP_multi,   V_multi,                1000); 
             R = mvnrnd(mu,          cholesky($V_multi),     boxMuller($_iter))
             R = mu + At*A
-            */
+            */            
             $_iter = 10;
             $n = new NumPHP\Core\NumArray(boxMuller($_iter));
 
-            $_aux = $ESP_multi->getData();
-            $_aux = array_map(null, ...$_aux);
+            $ESP_multi = $ESP_multi->getData();
+            $ESP_multi = array_map(null, ...$ESP_multi);
+            
+            print_r($ESP_multi);
+            print_r($V_multi->getData());
 
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
-            foreach ($R as $key => $value) {
-                $R[$key] = [ $R[$key][0] + $_aux[0] , $R[$key][1] + $_aux[1]];
-            }
 
+            foreach ($R as $key => $value) {
+                $R[$key] = [$R[$key][0] + $ESP_multi[0], $R[$key][1] + $ESP_multi[1]];
+            }
+            
             /* Estructura de asignacion MATLAB
             mu = [
                     AB_0(1)*ones(size(R(:,1))) 
@@ -275,8 +285,8 @@ if (isset($_POST['calculate'])) {
                 array_push($AB_0_3_ones, $AB_0[2] * 1);
                 array_push($AB_0_4_ones, $AB_0[3] * 1);
                 array_push($AB_0_5_ones, $AB_0[4] * 1);
-                array_push($mu_R1,  $R[$i][0]);
-                array_push($mu_R2,  $R[$i][1]);
+                array_push($mu_R1,  $R[$i][0] * 1);
+                array_push($mu_R2,  $R[$i][1] * 1);
             }
             $mu = [ 
                 $AB_0_1_ones,
@@ -287,8 +297,13 @@ if (isset($_POST['calculate'])) {
                 $mu_R1,
                 $mu_R2
             ];
+            
+            print_r($mu);
 
             $mu = array_map(null, ...$mu);
+            
+            print_r($X[0]);
+            print_r($mu[0]);
 
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
@@ -296,10 +311,9 @@ if (isset($_POST['calculate'])) {
             for($i = 0; $i < $_iter; $i++){
         
                 for($a = 0; $a < 4; $a++){
-                    $euclidean = new Phpml\Math\Distance\Euclidean();
-                    $D[$a] = $euclidean->distance($X[$a], $mu[$i]);
+                    $D[$a] = distance($X[$a], $mu[$i]);    
                 }
-
+                print_r($D);
                 $M = min($D);
                 $I = array_search($M, $D);
         
@@ -314,36 +328,47 @@ if (isset($_POST['calculate'])) {
                 }
             }
             
+            echo "disp('----------J-----------')";
+            print_r($j);
+            echo "disp('----------J-----------')";
+            
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
+            $m_pr = $max_prob/1000;
+            $j_pr = [];
+            
+            foreach ($j as $value) {
+                array_push($j_pr, $value/1000);
+            }
+            
+            print_r($j_pr);
+            
+            $color = ["yellow","red","purple","blue"];
+            
+            $centroid = [
+                "The assistant-centroid for the yellow cluster is represented by the vector, QS Rank of graduation University as PhD degree = 85, QS Rank of Hiring University as Assistant Professor = 95, QS Rank of promotion university as associate professor = 95, Numbers of years since PhD degree to Assistant Professorship Appointment = 3, Numbers of years Assistant to associate Professorship Appointment = 6, CMoJIF at hiring year as Assistant Professor = 5.22, CMoJIF at promotion year as associate Professor = 5.88",
+                "The assistant-centroid for the red cluster is represented by the vector, QS Rank of graduation University as PhD degree = 52, QS Rank of Hiring University as Assistant Professor = 123, QS Rank of promotion university as associate professor = 123, Numbers of years since PhD degree to Assistant Professorship Appointment = 10, Numbers of years Assistant to associate Professorship Appointment = 7, CMoJIF at hiring year as Assistant Professor = 6.89, CMoJIF at promotion year as associate Professor = 6.13",
+                "The assistant-centroid for the purple cluster is represented by the vector, QS Rank of graduation University as PhD degree = 30, QS Rank of Hiring University as Assistant Professor = 30, QS Rank of promotion university as associate professor = 19, Numbers of years since PhD degree to Assistant Professorship Appointment = 4, Numbers of years Assistant to associate Professorship Appointment = 7, CMoJIF at hiring year as Assistant Professor = 19.24, CMoJIF at promotion year as associate Professor = 16.53",
+                "The assistant-centroid for the blue cluster is represented by the vector, QS Rank of graduation University as PhD degree = 24, QS Rank of Hiring University as Assistant Professor = 31, QS Rank of promotion university as associate professor = 33, Numbers of years since PhD degree to Assistant Professorship Appointment = 4, Numbers of years Assistant to associate Professorship Appointment = 8, CMoJIF at hiring year as Assistant Professor = 11.58, CMoJIF at promotion year as associate Professor = 10.05"
+            ];
+            
+            $select_color = $color[$near_clust];
+            $select_centroid = $centroid[$near_clust];
+            
 
             $Clust_evaluate = array_map(null, ...$Clust[$near_clust]);
 
-            $year_min = [
-                min($Clust_evaluate[0]),
-                min($Clust_evaluate[1]),
-                min($Clust_evaluate[2]),
-                min($Clust_evaluate[3]),
-                min($Clust_evaluate[5]),
-                min($Clust_evaluate[6]),
-                min($Clust_evaluate[7])
-            ];
-            $year_max = [
-                max($Clust_evaluate[0]),
-                max($Clust_evaluate[1]),
-                max($Clust_evaluate[2]),
-                max($Clust_evaluate[3]),
-                max($Clust_evaluate[4]),
-                max($Clust_evaluate[5]),
-                max($Clust_evaluate[6]),
-                max($Clust_evaluate[7])
-            ];
+            $year_min = [min($Clust_evaluate[0]),min($Clust_evaluate[1]),min($Clust_evaluate[2]),min($Clust_evaluate[3]),min($Clust_evaluate[4]),min($Clust_evaluate[5]),min($Clust_evaluate[6]),min($Clust_evaluate[7])];
+            $year_max = [max($Clust_evaluate[0]),max($Clust_evaluate[1]),max($Clust_evaluate[2]),max($Clust_evaluate[3]),max($Clust_evaluate[4]),max($Clust_evaluate[5]),max($Clust_evaluate[6]),max($Clust_evaluate[7])];
 
             $_inf_year = $year_min[5];
             $_sup_year = $year_max[5];
 
             $_inf_qs = ceil(pow(10, $year_min[3]));
             $_sup_qs = floor(pow(10, $year_max[3]));  
+            
+            $result = "You have a ".number_format($m_pr, 4)." probability to belong to ".$select_color.". cluster with a range of ".number_format($_inf_qs, 2)." and ".number_format($_sup_qs, 2)." and ".number_format($_inf_year, 2)." and ".number_format($_sup_year,2)." years for the QS rank of Hiring university as assistant professor, and hiring year as assistant professor since the graduation year, respectively.";
+
         }
     }else{
         $vista_resultado = TRUE;
@@ -366,7 +391,7 @@ if (isset($_POST['calculate'])) {
     <meta name="keywords" content="Colorlib Templates">
 
     <!-- Title Page-->
-    <title>simulation.m</title>
+    <title>simulation_asoc.m</title>
 
     <!-- Font special for pages-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
@@ -1075,6 +1100,7 @@ if (isset($_POST['calculate'])) {
             <div class="card card-6">
                 <div class="card-heading">
                     <h2 class="title">simulation_asoc.m</h2>
+                    <h6 class="title"><?php echo "Run in php, version ".phpversion() ; ?></h6> 
                 </div>
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation_asoc.php">
@@ -1084,29 +1110,34 @@ if (isset($_POST['calculate'])) {
                             <input class="input--style-6" type="text" name="token" id="token">
                         </div>
                         <div class="form-row">
-                            <h4>What is the QS rank of the university you currently work at?</h4>
+                            <h4>What is your Graduation University QS rank?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_1" id="preg_1">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_1" id="preg_1">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
-                            <h4>What is your current Impact Factor average?</h4>
+                            <h4>What is the QS rank of the university you currently work at?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_2" id="preg_2">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_2" id="preg_2">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
                             <h4>How long did it take you to get hired since your graduation (in years)?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_3" id="preg_3">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_3" id="preg_3">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
-                            <h4>What was your Impact Factor average when you were hired?</h4>
+                            <h4>What was your CMoJIF average when you were hired?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_4" id="preg_4">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_4" id="preg_4">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="form-row">
-                            <h4>What is your current Impact Factor average?</h4>
+                            <h4>What is your current CMoJIF average?</h4>
                             <br><br>
-                            <input class="input--style-6" type="number" name="preg_5" id="preg_2">
+                            <input class="input--style-6" type="number" step="0.01" name="preg_5" id="preg_2">
+                            <h6>American format numbers, example (3.4)</h6>
                         </div>
                         <div class="card-footer">
                             <button class="btn btn--radius-2 btn--blue-2" type="submit" name ="calculate" value="calculate">Calculate</button>
@@ -1119,14 +1150,16 @@ if (isset($_POST['calculate'])) {
             <div class="wrapper wrapper--w900">
             <div class="card card-6">
                 <div class="card-heading">
-                    <h2 class="title">simulation.m</h2>
+                    <h2 class="title">simulation_asoc.m</h2>
                 </div>
                 <?php if($no_autorizado== FALSE): ?>
                 <div class="card-body">
-                    <form accept-charset="utf-8" method="POST" action="simulation.php">
+                    <form accept-charset="utf-8" method="POST" action="simulation_asoc.php">
                         <div class="form-row">
-                            <h4>You will be hired in <?php echo $_inf_year; ?> and <?php echo $_sup_year; ?>,</h4>
-                            <h4>years since your graduation, in a university with a QS rank between  <?php echo $_inf_qs; ?> and <?php echo $_sup_qs; ?></h4>
+                            <br>
+                            <h4> <?php echo $result; ?> </h4>
+                            <br>
+                            <h4> <?php echo $select_centroid; ?> </h4>
                             <br>
                         </div>
                     </form>
