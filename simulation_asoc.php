@@ -28,6 +28,15 @@ function boxMuller($n){
     return $_M;
 }
 
+function distance($vector1, $vector2){
+    $n = count($vector1);
+    $sum = 0;
+    for ($i = 0; $i < $n; $i++) {
+        $sum += ($vector1[$i] - $vector2[$i]) * ($vector1[$i] - $vector2[$i]);
+    }
+    return sqrt($sum);
+}
+
 if (isset($_POST['calculate'])) {
     $token = isset($_POST["token"]) ? $_POST["token"] : "";
     if($token == "fsdtyu234jkhfsd8234"){
@@ -302,11 +311,9 @@ if (isset($_POST['calculate'])) {
             for($i = 0; $i < $_iter; $i++){
         
                 for($a = 0; $a < 4; $a++){
-                    $euclidean = new Phpml\Math\Distance\Euclidean();
-                    $D[$a] = $euclidean->distance($X[$a], $mu[$i]);
-                    print_r($D);
+                    $D[$a] = distance($X[$a], $mu[$i]);    
                 }
-
+                print_r($D);
                 $M = min($D);
                 $I = array_search($M, $D);
         
