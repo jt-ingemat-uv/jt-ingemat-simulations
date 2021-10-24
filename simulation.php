@@ -948,6 +948,14 @@ if (isset($_POST['calculate'])) {
         color: #fff;
         margin-bottom: 24px;
         }
+        
+        .subtitle {
+        font-size: 8px;
+        font-weight: 100;
+        text-align: left;
+        color: #fff;
+        margin-bottom: 24px;
+        }
 
         @media (max-width: 767px) {
         .title {
@@ -1030,7 +1038,7 @@ if (isset($_POST['calculate'])) {
             <div class="card card-6">
                 <div class="card-heading">
                     <h2 class="title">simulation.m</h2>
-                    <h6 class="title"><?php echo "Run in php, version ".phpversion() ; ?></h6> 
+                    <h6 class="subtitle"><?php echo "Run in php, version ".phpversion() ; ?></h6> 
                 </div>
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation.php">
