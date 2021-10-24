@@ -1086,6 +1086,7 @@ if (isset($_POST['calculate'])) {
 </head>
 <body>
     <br>
+    <h6><?php echo "php version ".phpversion ; ?></h6> 
         <?php if($vista_resultado== FALSE): ?>
         <div class="wrapper wrapper--w900">
             <div class="card card-6">
