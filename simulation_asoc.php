@@ -246,6 +246,9 @@ if (isset($_POST['calculate'])) {
 
             $ESP_multi = $ESP_multi->getData();
             $ESP_multi = array_map(null, ...$ESP_multi);
+            
+            print_r($ESP_multi);
+            print_r($V_multi->getData());
 
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
 
