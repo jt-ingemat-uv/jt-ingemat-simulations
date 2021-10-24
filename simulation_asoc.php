@@ -287,6 +287,8 @@ if (isset($_POST['calculate'])) {
                 $mu_R1,
                 $mu_R2
             ];
+            
+            print_r($mu);
 
             $mu = array_map(null, ...$mu);
 
