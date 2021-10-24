@@ -241,7 +241,7 @@ if (isset($_POST['calculate'])) {
             R = mvnrnd(mu,          cholesky($V_multi),     boxMuller($_iter))
             R = mu + At*A
             */
-            $_iter = 10;
+            $_iter = 1000;
             $n = new NumPHP\Core\NumArray(boxMuller($_iter));
 
             $_aux = $ESP_multi->getData();
