@@ -303,6 +303,11 @@ if (isset($_POST['calculate'])) {
 
             $mu = array_map(null, ...$mu);
             
+            
+            print_r("-------------------X----------\n");
+            print_r($X);
+            print_r("-------------------X----------\n");
+            
             print_r($X[0]);
             print_r($mu[0]);
             $TEST = [0, 0, 0, 0];
