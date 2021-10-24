@@ -256,11 +256,11 @@ if (isset($_POST['calculate'])) {
             $ESP_multi = $ESP_multi->getData();
             $ESP_multi = array_map(null, ...$ESP_multi);
             
-            print_r($ESP_multi);
-            print_r($V_multi->getData());
+            // print_r($ESP_multi);
+            // print_r($V_multi->getData());
 
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
-            print_r($R);
+            // print_r($R);
 
             foreach ($R as $key => $value) {
                 $R[$key] = [$R[$key][0] + $ESP_multi[0], $R[$key][1] + $ESP_multi[1]];
@@ -299,17 +299,17 @@ if (isset($_POST['calculate'])) {
                 $mu_R2
             ];
             
-            print_r($mu);
+            // print_r($mu);
 
             $mu = array_map(null, ...$mu);
             
             
-            print_r("-------------------X----------\n");
-            print_r($X);
-            print_r("-------------------X----------\n");
+            // print_r("-------------------X----------\n");
+            // print_r($X);
+            // print_r("-------------------X----------\n");
             
-            print_r($X[0]);
-            print_r($mu[0]);
+            // print_r($X[0]);
+            // print_r($mu[0]);
             $TEST = [0, 0, 0, 0];
             
             for($a = 0; $a < 4; $a++){
