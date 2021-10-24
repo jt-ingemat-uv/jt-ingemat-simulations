@@ -158,6 +158,7 @@ if (isset($_POST['calculate'])) {
             $IF_PY      = $preg_5;
                 
             $AB_0 = [$logQS_PhD, $logQS_HU, $HY, $IF_HY, $IF_PY];
+            var_dump($AB_0);
 
             //$M_CO = new NumPHP\Core\NumArray([$XY, $AB]);
             
@@ -221,6 +222,9 @@ if (isset($_POST['calculate'])) {
             }
         
             $AB_0_AB_m = new NumPHP\Core\NumArray($_aux);
+            print_r($AB_0_AB_m);
+            
+            
             $XY_m = new NumPHP\Core\NumArray([$XY_m]);
             
             //print_r($AB_0_AB_m);
