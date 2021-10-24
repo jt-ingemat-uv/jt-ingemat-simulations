@@ -18,10 +18,10 @@ function boxMuller($n){
     $_C2 = [];
     $i   = 0;
     while($n >  $i){
-        $U1 = rand(0,999) / 1000;
-        $U2 = rand(0,999) / 1000;
-        $Z1 = sqrt(-2.0 * log($U1)) * cos(( 2.0 * pi() ) * $U2);
-        $Z2 = sqrt(-2.0 * log($U1)) * sin(( 2.0 * pi() ) * $U2);
+        $U1 = (float)mt_rand()/(float)mt_getrandmax();
+        $U2 = (float)mt_rand()/(float)mt_getrandmax();
+        $Z1 = sqrt(-2 * log($U1)) * cos( 2.0 * pi() * $U2);
+        $Z2 = sqrt(-2 * log($U1)) * sin( 2.0 * pi() * $U2);
         array_push($_M, [$Z1, $Z2]);
         $i++;
     }
