@@ -271,13 +271,13 @@ if (isset($_POST['calculate'])) {
             $AB_0_1_ones = $AB_0_2_ones = $AB_0_3_ones = $AB_0_4_ones = $AB_0_5_ones = $mu_R1 = $mu_R2 = [];
 
             for($i = 0; $i < $_iter; $i++){
-                array_push($AB_0_1_ones, $AB_0[0]);
-                array_push($AB_0_2_ones, $AB_0[1]);
-                array_push($AB_0_3_ones, $AB_0[2]);
-                array_push($AB_0_4_ones, $AB_0[3]);
-                array_push($AB_0_5_ones, $AB_0[4]);
-                array_push($mu_R1,  $R[$i][0]);
-                array_push($mu_R2,  $R[$i][1]);
+                array_push($AB_0_1_ones, $AB_0[0] * 1);
+                array_push($AB_0_2_ones, $AB_0[1] * 1);
+                array_push($AB_0_3_ones, $AB_0[2] * 1);
+                array_push($AB_0_4_ones, $AB_0[3] * 1);
+                array_push($AB_0_5_ones, $AB_0[4] * 1);
+                array_push($mu_R1,  $R[$i][0] * 1);
+                array_push($mu_R2,  $R[$i][1] * 1);
             }
             $mu = [ 
                 $AB_0_1_ones,
