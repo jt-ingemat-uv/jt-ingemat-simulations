@@ -1090,11 +1090,8 @@ if (isset($_POST['calculate'])) {
         <div class="wrapper wrapper--w900">
             <div class="card card-6">
                 <div class="card-heading">
-                    <h2 class="title">
-                        simulation_asoc.m
-                        <br>
-                        <h6><?php echo "Run in php, version ".phpversion() ; ?></h6> 
-                    </h2>    
+                    <h2 class="title">simulation_asoc.m</h2>
+                    <h6 class="title"><?php echo "Run in php, version ".phpversion() ; ?></h6> 
                 </div>
                 <div class="card-body">
                     <form accept-charset="utf-8" method="POST" action="simulation_asoc.php">
