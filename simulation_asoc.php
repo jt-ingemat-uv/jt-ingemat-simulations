@@ -250,7 +250,7 @@ if (isset($_POST['calculate'])) {
             R = mvnrnd(mu,          cholesky($V_multi),     boxMuller($_iter))
             R = mu + At*A
             */            
-            $_iter = 1000;
+            $_iter = 10;
             $n = new NumPHP\Core\NumArray(boxMuller($_iter));
 
             $ESP_multi = $ESP_multi->getData();
@@ -325,12 +325,12 @@ if (isset($_POST['calculate'])) {
                 [1.4719, 1.4666, 4.4286, 19.2354, 16.5259, 1.2874, 6.9286],
                 [1.3805, 1.4943, 4.2791, 11.5814, 10.0516, 1.5200, 8.4884]
                  ];
-            // for($a = 0; $a < 4; $a++){
-            //        $TEST2[$a] = distance($HANDWRITTEN_X[$a],[1.0000, 2.1139, 5.0000, 15.0000, 14.3000, 2.1052, 3.6665]);    
-            //    }
-            // print_r("-------------------TEST2----------");
-            // print_r($TEST2);
-            // print_r("-------------------TEST2----------");
+            for($a = 0; $a < 4; $a++){
+                   $TEST2[$a] = distance($HANDWRITTEN_X[$a],[1.0000, 2.1139, 5.0000, 15.0000, 14.3000, 2.1052, 3.6665]);    
+               }
+            print_r("-------------------TEST2----------");
+            print_r($TEST2);
+            print_r("-------------------TEST2----------");
             
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
