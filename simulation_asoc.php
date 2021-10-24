@@ -314,6 +314,10 @@ if (isset($_POST['calculate'])) {
                 }
             }
             
+            echo "disp('----------J-----------')";
+            print_r($j);
+            echo "disp('----------J-----------')";
+            
             $max_prob = max($j);
             $near_clust = array_search($max_prob, $j);
             $m_pr = $max_prob/1000;
