@@ -296,12 +296,15 @@ if (isset($_POST['calculate'])) {
 
             $j = [0, 0, 0, 0];
             $D = [0, 0, 0, 0];
+            
+            print_r($X);
 
             for($i = 0; $i < $_iter; $i++){
         
                 for($a = 0; $a < 4; $a++){
                     $euclidean = new Phpml\Math\Distance\Euclidean();
                     $D[$a] = $euclidean->distance($X[$a], $mu[$i]);
+                    print_r($D);
                 }
 
                 $M = min($D);
