@@ -249,7 +249,7 @@ if (isset($_POST['calculate'])) {
 
             $R = $n->dot(LinAlg::cholesky($V_multi))->getData();
             foreach ($R as $key => $value) {
-                $R[$key] = [ $R[$key][0] + $_aux[0] , $R[$key][1] + $_aux[1]];
+                $R[$key] = [ $R[$key][0] + $_aux[$key][0] , $R[$key][1] + $_aux[$key][1]];
             }
             
             echo "disp('----------R-----------')";
